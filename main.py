@@ -7,6 +7,7 @@ MIT License
 
 from flask import Flask, request, jsonify
 from controllers.filehandler import Filehandler
+from errorhandlers.invalid_request import InvalidRequestError
 
 """
 Main Application and Routing
@@ -22,7 +23,11 @@ def home():
 def list_tree():
     path = request.args.get('p')
     fh = Filehandler()
-    return jsonify(fh.get_tree(path))
+    try:
+        return jsonify(fh.get_tree(path))
+    except FileNotFoundError:
+        ive = InvalidRequestError("'" + path + "' is not a valid path")
+        return jsonify(ive.to_dict()), ive.status_code
 
 @app.route("/write")
 def store():
@@ -30,8 +35,6 @@ def store():
     fh = Filehandler()
     fh.write_to_target("testfile", content)
     return "OK"
-
-
 
 """"""
 if __name__ == "__main__":

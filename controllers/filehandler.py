@@ -23,6 +23,8 @@ class Filehandler:
     def get_tree(self, path):
 
         tree=dict()
+
+
         current=os.listdir(path)
 
         for e in current:
