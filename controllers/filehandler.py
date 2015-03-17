@@ -74,7 +74,7 @@ class Filehandler:
             # Skip if directory
             # Files have None as value
             if _tree[k] is None:
-                _file_endings.append(k.split['.'][-1])
+                _file_endings.append(k.split('.')[-1])
 
         return max(set(_file_endings), key=_file_endings.count)
 
