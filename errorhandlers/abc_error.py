@@ -4,10 +4,10 @@ Sizun - Software Quality Inspection
 MIT License
 (C) 2015 David Rieger
 """
-from flask import jsonify
 
-class InvalidRequestError(Exception):
-    status_code = 400
+from abc import ABCMeta
+
+class ErrorABC(Exception, metaclass=ABCMeta):
 
     def __init__(self, message, status_code=None, payload=None):
         Exception.__init__(self)
