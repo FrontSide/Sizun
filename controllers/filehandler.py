@@ -4,42 +4,31 @@ Sizun
 MIT License
 (C) 2015 David Rieger
 """
+
 from flask import current_app as app
-from errorhandlers.concrete_error import ComprehensionError
+from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import logging
 import os
 
 """
 Handles the reading from directories and files
 """
-class Filehandler:
+class FileHandler:
 
-    def __init__(self, config_handler):
+    def __init__(self, _settings):
         self.tree = dict()
-        self.conf = config_handler
-        self.update_srcpath()
+        self.settings = _settings
 
     #Directory for target files which safe the results
     target = "results"
 
-    def update_srcpath(self):
-        self.srcpath = self.conf.get("DEFAULT", "SOURCEPATH")
-
     def get_tree(self):
-        self.update_srcpath()
-        self.tree = self.fetch_tree(self.srcpath)
+        _srcpath = self.settings.get_sourcepath()
+        try:
+            self.tree = self.fetch_tree(_srcpath)
+        except FileNotFoundError:
+            raise InvalidRequestError("Sourcepath: '%s' seems to be invalid" % _srcpath)
         return self.tree
-
-    language = None
-    def get_language(self):
-        if not self.language:
-            try:
-                self.language = self.detect_language()
-            except ValueError:
-                raise ComprehensionError("Could not find src files in source path root")
-        self.conf.set("SYNTAX", "LANGUAGE", self.language)
-        return self.language
-
 
     """
     returns the tree for the given path
@@ -48,6 +37,7 @@ class Filehandler:
     def fetch_tree(self, path):
 
         current=os.listdir(path)
+
         tree = dict()
 
         for e in current:
@@ -77,9 +67,6 @@ class Filehandler:
                 _file_endings.append(k.split('.')[-1])
 
         return max(set(_file_endings), key=_file_endings.count)
-
-
-
 
     """
     writes -content- to file -filename- in target directory

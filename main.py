@@ -6,9 +6,12 @@ MIT License
 """
 
 from flask import Flask, request, jsonify
-from controllers.filehandler import Filehandler
+from controllers.filehandler import FileHandler
 from errorhandlers.concrete_error import InvalidRequestError, ComprehensionError
 from controllers.confighandler import ConfigHandler
+from controllers.settings import InspectionSettings
+
+
 
 """
 Main Application and Routing
@@ -16,7 +19,10 @@ Main Application and Routing
 
 app = Flask(__name__)
 mainch = ConfigHandler('config/sizun.conf')
-fh = Filehandler(mainch)
+inspsettings = InspectionSettings(mainch)
+fh = FileHandler(inspsettings)
+
+
 
 """
 Home
@@ -25,13 +31,17 @@ Home
 def home():
     return "Salute monde..."
 
+
+
 """
 Set the sourcepath where the inspection is conducted
 """
 @app.route("/sourcepath/set/<path:p>")
 def set_srcpath(p):
-    mainch.set("DEFAULT", "SOURCEPATH", p)
+    inspsettings.set_sourcepath(p)
     return "OK"
+
+
 
 """
 Get the directory tree from the sourcepath
@@ -40,9 +50,10 @@ Get the directory tree from the sourcepath
 def list_tree():
     try:
         return jsonify(fh.get_tree())
-    except FileNotFoundError:
-        ive = InvalidRequestError("'" + fh.srcpath + "' is not a valid path")
-        return jsonify(ive.to_dict()), ive.status_code
+    except InvalidRequestError as error:
+        return jsonify(error.to_dict()), error.status_code
+
+
 
 """
 Get the project's used language
@@ -50,9 +61,11 @@ Get the project's used language
 @app.route("/language/get")
 def get_language():
     try:
-        return jsonify({"LANG" : fh.get_language()})
-    except ComprehensionError as error:
+        return jsonify({"LANG" : inspsettings.get_language()})
+    except (ComprehensionError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
+
+
 
 """
 Write to a file in the target ('results') folder

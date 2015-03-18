@@ -27,4 +27,10 @@ class ConfigHandler:
         with open(self.path, 'r') as configfile:
             self.config.read_file(configfile)
 
-        return self.config[key][subkey]
+        if not key in self.config.sections():
+            return None
+
+        try:
+            return self.config[key][subkey]
+        except KeyError:
+            return None
