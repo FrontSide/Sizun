@@ -10,13 +10,13 @@ from controllers.filehandler import FileHandler
 from errorhandlers.concrete_error import InvalidRequestError, ComprehensionError
 from controllers.confighandler import ConfigHandler
 from controllers.settings import InspectionSettings
+from controllers.inspectors.inspection import InspectionRunner
 
 
 
 """
 Main Application and Routing
 """
-
 app = Flask(__name__)
 routch = ConfigHandler('config/routes.sizcon')
 mainch = ConfigHandler('config/application.sizcon')
@@ -31,6 +31,7 @@ r_home = routch.get("VIEW", "HOME")
 r_set_srcpath = routch.get("SOURCEPATH", "SET")
 r_get_srcpath_tree = routch.get("SOURCEPATH", "TREE")
 r_get_language = routch.get("LANGUAGE", "GET")
+r_run_full = routch.get("RUN", "FULL")
 
 """
 Home
@@ -73,6 +74,12 @@ def get_language():
     except (ComprehensionError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
 
+"""
+Run full inspectionsuit and return results
+"""
+@app.route(r_run_full)
+def run_full_inspection():
+    return jsonify(InspectionRunner(mainch).run())
 
 
 """

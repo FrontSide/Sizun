@@ -11,3 +11,6 @@ set=/language/set/<language>
 get=/sourcepath/get
 set=/sourcepath/set/<path:sourcepath>
 tree=/sourcepath/tree/get
+
+[RUN]
+full=/run

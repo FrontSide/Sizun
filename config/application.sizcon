@@ -1,7 +1,9 @@
-[INSPECTION]
-sourcepath = C:\Users\drieger\Documents\GitHub\Sizun\src
-language = py
-ignorefiles = [.gitignore]
+[BASIC]
+sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+language = java
 
-[SYNTAX]
-language = py
+[INSPECTION]
+# Uncomment any of the following inspections
+# to enable it for the full inspection suit
+
+#cc=1

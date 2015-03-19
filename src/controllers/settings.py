@@ -10,13 +10,16 @@ from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 
 class InspectionSettings:
 
-    section_key = "INSPECTION"
+    section_key = "BASIC"
     sourcepath_key = "SOURCEPATH"
     language_key = "LANGUAGE"
 
     def __init__(self, _config):
         self.fh=FileHandler(self)
         self.conf=_config
+
+    def reset(self):
+        return
 
     """
     Handles the language settings in the main config file

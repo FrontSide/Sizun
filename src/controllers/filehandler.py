@@ -58,9 +58,7 @@ class FileHandler:
         _tree = self.get_tree()
 
         for k in _tree:
-
-            app.logger.debug("KEY :: " + k)
-
+            
             # Skip if directory
             # Files have None as value
             if _tree[k] is None:
