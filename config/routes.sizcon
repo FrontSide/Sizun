@@ -1,0 +1,13 @@
+[VIEW]
+home=/
+
+[START]
+
+[LANGUAGE]
+get=/language/get
+set=/language/set/<language>
+
+[SOURCEPATH]
+get=/sourcepath/get
+set=/sourcepath/set/<path:sourcepath>
+tree=/sourcepath/tree/get

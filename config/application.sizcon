@@ -1,0 +1,7 @@
+[INSPECTION]
+sourcepath = C:\Users\drieger\Documents\GitHub\Sizun\src
+language = py
+ignorefiles = [.gitignore]
+
+[SYNTAX]
+language = py

@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source ./bin/activate
-python main.py
+python ./src/main.py

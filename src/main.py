@@ -18,16 +18,24 @@ Main Application and Routing
 """
 
 app = Flask(__name__)
-mainch = ConfigHandler('config/sizun.conf')
+routch = ConfigHandler('config/routes.sizcon')
+mainch = ConfigHandler('config/application.sizcon')
 inspsettings = InspectionSettings(mainch)
 fh = FileHandler(inspsettings)
 
 
+"""
+Load Routes from config file
+"""
+r_home = routch.get("VIEW", "HOME")
+r_set_srcpath = routch.get("SOURCEPATH", "SET")
+r_get_srcpath_tree = routch.get("SOURCEPATH", "TREE")
+r_get_language = routch.get("LANGUAGE", "GET")
 
 """
 Home
 """
-@app.route("/")
+@app.route(r_home)
 def home():
     return "Salute monde..."
 
@@ -36,9 +44,9 @@ def home():
 """
 Set the sourcepath where the inspection is conducted
 """
-@app.route("/sourcepath/set/<path:p>")
-def set_srcpath(p):
-    inspsettings.set_sourcepath(p)
+@app.route(r_set_srcpath)
+def set_srcpath(sourcepath):
+    inspsettings.set_sourcepath(sourcepath)
     return "OK"
 
 
@@ -46,7 +54,7 @@ def set_srcpath(p):
 """
 Get the directory tree from the sourcepath
 """
-@app.route("/sourcepath/tree/get")
+@app.route(r_get_srcpath_tree)
 def list_tree():
     try:
         return jsonify(fh.get_tree())
@@ -58,7 +66,7 @@ def list_tree():
 """
 Get the project's used language
 """
-@app.route("/language/get")
+@app.route(r_get_language)
 def get_language():
     try:
         return jsonify({"LANG" : inspsettings.get_language()})
