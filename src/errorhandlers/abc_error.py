@@ -18,5 +18,6 @@ class ErrorABC(Exception, metaclass=ABCMeta):
 
     def to_dict(self):
         rv = dict(self.payload or ())
+        rv['type'] = "error"
         rv['message'] = self.message
         return rv

@@ -7,7 +7,7 @@ MIT License
 
 from flask import Flask, request, jsonify
 from controllers.filehandler import FileHandler
-from errorhandlers.concrete_error import InvalidRequestError, ComprehensionError
+from errorhandlers.concrete_error import InvalidRequestError, ComprehensionError, ExternalDependencyError
 from controllers.confighandler import ConfigHandler
 from controllers.settings import InspectionSettings
 from controllers.inspectors.inspection import InspectionRunner
@@ -79,8 +79,10 @@ Run full inspectionsuit and return results
 """
 @app.route(r_run_full)
 def run_full_inspection():
-    return jsonify(InspectionRunner(mainch).run())
-
+    try:
+        return jsonify(InspectionRunner(mainch).run())
+    except ExternalDependencyError as error:
+        return jsonify(error.to_dict()), error.status_code
 
 """
 Write to a file in the target ('results') folder

@@ -23,9 +23,9 @@ class InspectionRunner:
 
         # Start only inspections that are enabled in config file
         # Cyclomatic Complexity
-        if self.config.get("INSPECTION", "CC") is not None:
+        if self.config.isset("INSPECTION", "CC"):
             from .circular_complexity import CCInspector
-            result["cc"] = CCInspector().run(FileHandler(self.config))
+            result["cc"] = CCInspector(FileHandler(self.config)).run()
 
         return result
 

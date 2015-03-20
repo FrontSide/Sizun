@@ -12,6 +12,9 @@ class ConfigHandler:
         self.path = path
         self.config = configparser.ConfigParser()
 
+    """
+    Sets a value to a given key
+    """
     def set(self, key, subkey, value):
 
         # Create section if not existent
@@ -23,14 +26,27 @@ class ConfigHandler:
         with open(self.path, 'w') as configfile:
             self.config.write(configfile)
 
+    """
+    Returns the set value of a given key
+    """
     def get(self, key, subkey):
         with open(self.path, 'r') as configfile:
             self.config.read_file(configfile)
-
-        if not key in self.config.sections():
-            return None
 
         try:
             return self.config[key][subkey]
         except KeyError:
             return None
+
+    """
+    Returns the set boolean value of a given key
+    """
+    def isset(self, key, subkey):
+
+        with open(self.path, 'r') as configfile:
+            self.config.read_file(configfile)
+
+        try:
+            return self.config.getboolean(key, subkey)
+        except KeyError:
+            return False

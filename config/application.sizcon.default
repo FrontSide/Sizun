@@ -3,5 +3,4 @@ sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
 language = java
 
 [INSPECTION]
-cc = true
-
+cc=true
