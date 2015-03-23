@@ -6,6 +6,7 @@ MIT License
 """
 
 from flask import current_app as app
+from abc import ABCMeta
 from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import logging
 import os
@@ -58,7 +59,7 @@ class FileHandler:
         _tree = self.get_tree()
 
         for k in _tree:
-            
+
             # Skip if directory
             # Files have None as value
             if _tree[k] is None:

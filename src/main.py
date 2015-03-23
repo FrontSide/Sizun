@@ -40,8 +40,6 @@ Home
 def home():
     return "Salute monde..."
 
-
-
 """
 Set the sourcepath where the inspection is conducted
 """
@@ -49,8 +47,6 @@ Set the sourcepath where the inspection is conducted
 def set_srcpath(sourcepath):
     inspsettings.set_sourcepath(sourcepath)
     return "OK"
-
-
 
 """
 Get the directory tree from the sourcepath
@@ -61,8 +57,6 @@ def list_tree():
         return jsonify(fh.get_tree())
     except InvalidRequestError as error:
         return jsonify(error.to_dict()), error.status_code
-
-
 
 """
 Get the project's used language
@@ -80,7 +74,7 @@ Run full inspectionsuit and return results
 @app.route(r_run_full)
 def run_full_inspection():
     try:
-        return jsonify(InspectionRunner(mainch).run())
+        return jsonify(InspectionRunner(inspsettings).run())
     except ExternalDependencyError as error:
         return jsonify(error.to_dict()), error.status_code
 

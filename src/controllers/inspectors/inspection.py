@@ -5,14 +5,16 @@ MIT License
 (C) 2015 David Rieger
 """
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 from controllers.filehandler import FileHandler
+from controllers.aghandler import AGHandler
 from flask import current_app as app
 
 class InspectionRunner:
 
-    def __init__(self, config):
-        self.config=config
+    def __init__(self, _settings):
+        self.settings=_settings
+        self.ag=AGHandler(self.settings)
 
     """
     Run the full inspection suite
@@ -23,9 +25,9 @@ class InspectionRunner:
 
         # Start only inspections that are enabled in config file
         # Cyclomatic Complexity
-        if self.config.isset("INSPECTION", "CC"):
+        if self.settings.isset_inspection("CC"):
             from .circular_complexity import CCInspector
-            result["cc"] = CCInspector(FileHandler(self.config)).run()
+            result["CC"] = CCInspector(self.ag).run()
 
         return result
 
@@ -35,7 +37,17 @@ Abstract Inspection Super-Class
 """
 class InspectionABC(metaclass=ABCMeta):
 
-    def run(self, filehandler):
+    def run(self):
         """ Triggers the inspection process """
         app.logger.debug("An inspection has been triggered...")
+
+        # Write dict entry for JSON response
+        self.result = dict()
+        self.result["insp"] = "done"
+
+        return self.result
+
+    @abstractmethod
+    def exe_ag(_keyword, _filename):
+        """ Trrigers the AG Handler """
         return

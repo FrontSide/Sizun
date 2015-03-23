@@ -1,2 +1,3 @@
 # Java Syntax Page for Code Parsing
-METHODSTART=
+[ELEMENTS]
+IF=\\n\\s*if\\W

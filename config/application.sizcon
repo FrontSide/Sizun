@@ -1,6 +1,7 @@
 [BASIC]
 sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
 language = java
+target = results
 
 [INSPECTION]
 cc = true

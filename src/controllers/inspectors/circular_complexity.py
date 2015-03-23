@@ -7,26 +7,22 @@ MIT License
 
 from flask import current_app as app
 from errorhandlers.concrete_error import ExternalDependencyError
-import os
 from .inspection import InspectionABC
 
 class CCInspector(InspectionABC):
 
-    def __init__(self, filehandler):
-        self.fh = filehandler
-        return
+    def __init__(self, aghandler):
+        self.ag=aghandler
+        self.INSPECTION = "CC"
 
     def run(self):
-        super().run(self.fh)
-        self._exe_ag()
-        result = dict()
-        result["insp"] = "done"
-        return result
 
+        super().run()
 
-    def _exe_ag(self):
-        #try:
-        p = os.system("ag if")
-        #except FileNotFoundError:
-        #    raise ExternalDependencyError("Could not find 'ag' installation.")
-        #return
+        # Trigger AG
+        self.exe_ag("if", "cc")
+        return self.result
+
+    def exe_ag(self, _keyword, _filename):
+        self.ag.source_exe(_keyword, _filename)
+        return
