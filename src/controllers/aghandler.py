@@ -5,9 +5,10 @@ MIT License
 (C) 2015 David Rieger
 """
 from .confighandler import ConfigHandler
+from .filehandler import FileHandler
 from errorhandlers.concrete_error import ExternalDependencyError
 import os
-import subprocess
+from subprocess import check_output
 from flask import current_app as app
 
 class AGHandler():
@@ -29,22 +30,21 @@ class AGHandler():
     """
     def source_exe(self, _keyword, _target):
         #> {}/{}/{}.out , self.settings.get_apppath(), self.targetfolder, _target
-        exe_string = "{} {} {} [.]*.{}".format(self.C_MAIN, _keyword, self.C_OP_FILES, self.language)
-        app.logger.debug("ag commad to execute is {}".format(exe_string))
+        #exe_string = "{} {} {} [.]*.{}".format(self.C_MAIN, _keyword, self.C_OP_FILES, self.language)
+        #app.logger.debug("ag commad to execute is {}".format(exe_string))
         try:
 
             os.chdir(self.sourcepath)
-
             # run ag
-            p = subprocess.Popen(exe_string, stdout=subprocess.PIPE)
-            output = p.stdout.read()
-
-            # write result to file
-            self.fh.write_to_target(_target, output, overwrite=True)
-
+            _output = check_output([self.C_MAIN, _keyword, self.C_OP_FILES, "[.]*.{}".format(self.language)])
             os.chdir(self.settings.get_apppath())
 
         except FileNotFoundError:
             raise ExternalDependencyError("Could not find 'ag' installation.")
-            
+                    
+        app.logger.debug("OUTPUT :: {}".format(_output))
+
+        # write result to file
+        self.fh.write_to_target(_target, _output, overwrite=True)
+
         return

@@ -73,13 +73,17 @@ class FileHandler:
     """
     def write_to_target(self, filename, content, overwrite=False):
 
+        filename = filename + ".out"
+
         if not os.path.isdir(self.target):
             os.makedirs(self.target)
 
+        app.logger.debug("WRITE TO {}".format(self.target + "/" + filename))
+
         if overwrite or not os.path.isfile(self.target + "/" + filename):
-            f = open(self.target + "/" + filename, 'w')
+            f = open(self.target + "/" + filename, 'wb')
         else:
-            f = open(self.target + "/" + filename, 'a')
+            f = open(self.target + "/" + filename, 'ab')
 
         f.write(content)
         f.close()
