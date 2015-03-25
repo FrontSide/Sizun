@@ -20,7 +20,7 @@ class CCInspector(InspectionABC):
         super().run()
 
         # Trigger AG
-        self.exe_ag("protected", "cc")
+        self.exe_ag("if[\\W]*[\(]", "cc")
         return self.result
 
     def exe_ag(self, _keyword, _filename):
