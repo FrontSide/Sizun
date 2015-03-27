@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
 language = java
 target = results
 
