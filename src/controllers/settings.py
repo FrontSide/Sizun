@@ -9,6 +9,7 @@ from controllers.filehandler import FileHandler
 from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import os
 
+
 class InspectionSettings:
 
     BASIC_SECTION_KEY = "BASIC"
@@ -18,9 +19,9 @@ class InspectionSettings:
     TARGET_KEY = "TARGET"
 
     def __init__(self, _config):
-        self.fh=FileHandler(self)
-        self.conf=_config
-        self.apppath=os.getcwd()
+        self.fh = FileHandler(self)
+        self.conf = _config
+        self.apppath = os.getcwd()
 
     def reset(self):
         return
@@ -39,25 +40,25 @@ class InspectionSettings:
         self.conf.set(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY, _language)
 
     def get_language(self):
-        _language=self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
+        _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         if not _language:
             try:
                 _language = self.fh.detect_language()
             except ValueError:
-                raise ComprehensionError("Could not find src files in source path root")
+                raise ComprehensionError("""Could not find src files
+                                            in source path root""")
 
         self.set_language(_language)
         return _language
 
-
-    """
-    Handles the sourcepath settings in the main config file
-    """
     def set_sourcepath(self, _sourcepath):
+        """
+        Handles the sourcepath settings in the main config file
+        """
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
 
     def get_sourcepath(self):
-        _sourcepath=self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
+        _sourcepath = self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
         if not _sourcepath:
             raise InvalidRequestError("No source path in config file found")
 
@@ -72,9 +73,10 @@ class InspectionSettings:
         self.conf.set(self.BASIC_SECTION_KEY, self.TARGET_KEY, _targetfolder)
 
     def get_targetfolder(self):
-        _targetfolder=self.conf.get(self.BASIC_SECTION_KEY, self.TARGET_KEY)
+        _targetfolder = self.conf.get(self.BASIC_SECTION_KEY, self.TARGET_KEY)
         if not _targetfolder:
-            raise InvalidRequestError("No target folder path in config file found")
+            raise InvalidRequestError("""No target folder path
+                                        in config file found""")
 
         return _targetfolder
 
