@@ -1,3 +1,4 @@
 # Java Syntax Page for Code Parsing
 [ELEMENTS]
-IF=\\n\\s*if\\W
+IF=if[\s]*[\(]
+METHOD=public|private|package|protected[\s]+[.]*[\w][\(][.]*[\)][\W]*[{]

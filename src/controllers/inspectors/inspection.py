@@ -8,13 +8,15 @@ MIT License
 from abc import ABCMeta, abstractmethod
 from controllers.filehandler import FileHandler
 from controllers.aghandler import AGHandler
+from controllers.syntaxhandler import SyntaxHandler
 from flask import current_app as app
 
 class InspectionRunner:
 
     def __init__(self, _settings):
-        self.settings=_settings
-        self.ag=AGHandler(self.settings)
+        self.settings = _settings
+        self.ag = AGHandler(self.settings)
+        self.syntaxhandler = SyntaxHandler(self.settings)
 
     """
     Run the full inspection suite
@@ -27,7 +29,7 @@ class InspectionRunner:
         # Cyclomatic Complexity
         if self.settings.isset_inspection("CC"):
             from .circular_complexity import CCInspector
-            result["CC"] = CCInspector(self.ag).run()
+            result["CC"] = CCInspector(self.ag, self.syntaxhandler).run()
 
         return result
 
@@ -46,8 +48,3 @@ class InspectionABC(metaclass=ABCMeta):
         self.result["insp"] = "done"
 
         return self.result
-
-    @abstractmethod
-    def exe_ag(_keyword, _filename):
-        """ Trrigers the AG Handler """
-        return

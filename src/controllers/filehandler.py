@@ -73,18 +73,28 @@ class FileHandler:
     """
     def write_to_target(self, filename, content, overwrite=False):
 
-        filename = filename + ".out"
+        full_path = self.target + "/" + filename + ".out"
 
-        if not os.path.isdir(self.target):
-            os.makedirs(self.target)
+        # Create directory tree if not existing
+        if not os.path.exists(os.path.dirname(full_path)):
+            os.makedirs(os.path.dirname(full_path))
 
-        app.logger.debug("WRITE TO {}".format(self.target + "/" + filename))
+        app.logger.debug("WRITE TO {}".format(full_path))
 
-        if overwrite or not os.path.isfile(self.target + "/" + filename):
-            f = open(self.target + "/" + filename, 'wb')
+        if overwrite or not os.path.isfile(full_path):
+            f = open(full_path, 'wb')
         else:
-            f = open(self.target + "/" + filename, 'ab')
+            f = open(full_path, 'ab')
 
         f.write(content)
         f.close()
+        return
+
+    """
+    open file to read
+    """
+    def read(self, path_to_file):
+        """
+        TODO
+        """
         return
