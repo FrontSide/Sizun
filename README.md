@@ -18,7 +18,7 @@ Go into the Sizun directory and download all required packages with:
   
     pip install -r requirements.txt
 
-Now install Silver Searcher (https://github.com/ggreer/the_silver_searcher)[with those install instructions].
+Now install Silver Searcher [with those install instructions](https://github.com/ggreer/the_silver_searcher).
 
 That's it.
 
