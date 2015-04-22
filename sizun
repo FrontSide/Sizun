@@ -1,4 +1,35 @@
 #!/bin/bash
 
-source ./bin/activate
-python ./src/main.py
+# This function checks whether 
+# the last command has returned an error
+# and informs the user and aborts the script if so
+chk() {
+
+    OUT=$?
+
+    if [ $OUT -eq 0 ];then
+        echo "execution of $PRO finished!"
+        return 0
+    fi
+
+    echo "fatal error: $OUT"
+        
+    if [ $OUT -eq 127 ];then
+        echo "is $PRO installed?"
+    fi
+
+    exit
+
+}
+
+echo "install python tools..."
+PRO="pip3"
+eval $PRO install -r ./requirements.txt
+chk
+
+echo "start application..."
+#source ./bin/activate
+PRO="python3"
+eval $PRO ./src/main.py
+chk
+

@@ -9,19 +9,15 @@ This software implements standards and conventions from a new Software Quality F
 Install
 =======
 
-At the momentm, Sizun can only be built from source. 
-Download the latest working release (atm. there's just the master branch, though).
+At the moment, Sizun can only be built from source. 
+Download the latest working release (atm. there's just the master branch, though), make sure all **Requirements** are installed and continue with **Usage**.
 
-Make sure that python3 and pip is installed.
+Requirements
+============
 
-Go into the Sizun directory and download all required packages with:
-  
-    pip install -r requirements.txt
-
-Now install Silver Searcher [with those install instructions](https://github.com/ggreer/the_silver_searcher).
-
-That's it.
-
+- python3
+- pip3
+- [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Usage
 =====
