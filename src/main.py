@@ -5,7 +5,7 @@ MIT License
 (C) 2015 David Rieger
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from controllers.filehandler import FileHandler
 from errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
@@ -14,11 +14,7 @@ from controllers.confighandler import ConfigHandler
 from controllers.settings import InspectionSettings
 from controllers.inspectors.inspection import InspectionRunner
 
-
-
-"""
-Main Application and Routing
-"""
+# Main Application and Routing
 app = Flask(__name__)
 routch = ConfigHandler('config/routes.sizcon')
 mainch = ConfigHandler('config/application.sizcon')
@@ -26,20 +22,20 @@ inspsettings = InspectionSettings(mainch)
 fh = FileHandler(inspsettings)
 
 
-"""
-Load Routes from config file
-"""
+# Load Routes from config file
 r_home = routch.get("VIEW", "HOME")
 r_set_srcpath = routch.get("SOURCEPATH", "SET")
 r_get_srcpath_tree = routch.get("SOURCEPATH", "TREE")
 r_get_language = routch.get("LANGUAGE", "GET")
 r_run_full = routch.get("RUN", "FULL")
 
+# Routing #
+
 
 @app.route(r_home)
 def home():
     """
-    Home
+    Root/Home Page
     """
     return "Salute monde..."
 
@@ -81,6 +77,7 @@ def run_full_inspection():
     Run full inspectionsuit and return results
     """
     try:
+        app.logger.debug("convert dict to json...")
         return jsonify(InspectionRunner(inspsettings).run())
     except ExternalDependencyError as error:
         return jsonify(error.to_dict()), error.status_code
@@ -96,6 +93,6 @@ def store():
     fh.write_to_target("testfile", content)
     return "OK"
 
-""" """
+# Run app
 if __name__ == "__main__":
     app.run(debug=True)

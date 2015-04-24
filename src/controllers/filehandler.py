@@ -11,16 +11,17 @@ from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import logging
 import os
 
-"""
-Handles the reading from directories and files
-"""
+
 class FileHandler:
+    """
+    Handles the reading from directories and files
+    """
 
     def __init__(self, _settings):
         self.tree = dict()
         self.settings = _settings
 
-    #Directory for target files which safe the results
+    # Directory for target files which safe the results
     target = "results"
 
     def get_tree(self):
@@ -31,13 +32,13 @@ class FileHandler:
             raise InvalidRequestError("Sourcepath: '%s' seems to be invalid" % _srcpath)
         return self.tree
 
-    """
-    returns the tree for the given path
-    and all its files and subdirectories recursively
-    """
     def fetch_tree(self, path):
+        """
+        returns the tree for the given path
+        and all its files and subdirectories recursively
+        """
 
-        current=os.listdir(path)
+        current = os.listdir(path)
 
         tree = dict()
 
@@ -49,11 +50,11 @@ class FileHandler:
 
         return tree
 
-    """
-    Assumes the used language
-    by looking for the most common file ending in the srcpath root
-    """
     def detect_language(self):
+        """
+        Assumes the used language
+        by looking for the most common file ending in the srcpath root
+        """
 
         _file_endings = list()
         _tree = self.get_tree()
@@ -67,11 +68,11 @@ class FileHandler:
 
         return max(set(_file_endings), key=_file_endings.count)
 
-    """
-    writes -content- to file -filename- in target directory
-    optionally overwrites existing content of the file
-    """
     def write_to_target(self, filename, content, overwrite=False):
+        """
+        writes -content- to file -filename- in target directory
+        optionally overwrites existing content of the file
+        """
 
         full_path = self.target + "/" + filename + ".out"
 
@@ -90,11 +91,9 @@ class FileHandler:
         f.close()
         return
 
-    """
-    open file to read
-    """
     def read(self, path_to_file):
         """
+        open file to read
         TODO
         """
         return

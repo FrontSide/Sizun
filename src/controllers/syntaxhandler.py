@@ -7,6 +7,7 @@ MIT License
 
 from .confighandler import ConfigHandler
 
+
 class SyntaxHandler:
 
     SYNTAXFILES_FOLDER = "config/syntax/"
@@ -15,10 +16,14 @@ class SyntaxHandler:
     ELEMENTS_SECTION = "ELEMENTS"
 
     def __init__(self, _settings):
-        #Instantiate a Configuration Handler fot the according syntax file
+        # Instantiate a Configuration Handler fot the according syntax file
         self.language = _settings.get_language()
-        self.path_to_config = _settings.get_apppath()
-        self.confighandler = ConfigHandler(self.path_to_config + "/" + self.SYNTAXFILES_FOLDER + self.language + self.SYNTAXFILES_APPDX)
+        self.app_path = _settings.get_apppath()
+        self.confighandler = ConfigHandler("{}/{}{}{}".format(
+                    self.app_path,
+                    self.SYNTAXFILES_FOLDER,
+                    self.language,
+                    self.SYNTAXFILES_APPDX))
 
     def get_if_regex(self):
         """

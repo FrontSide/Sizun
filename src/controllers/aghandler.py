@@ -6,15 +6,16 @@ MIT License
 """
 from .confighandler import ConfigHandler
 from .filehandler import FileHandler
-from errorhandlers.concrete_error import ExternalDependencyError
+from errorhandlers.concrete_error import ExternalDependencyError, ExternalExecutionError
 import os
-from subprocess import check_output
+from subprocess import Popen, PIPE
 from flask import current_app as app
+
 
 class AGHandler():
 
-    C_MAIN="ag"
-    C_OP_FILES="--"
+    C_MAIN = "ag"
+    C_OP_FILES = "-G"
 
     def __init__(self, _settings):
         self.settings = _settings
@@ -24,27 +25,54 @@ class AGHandler():
         self.targetfolder = _settings.get_targetfolder()
         self.syntax = ConfigHandler("config/syntax/{}.syn".format(self.language))
 
-    """
-    Looks for the >keyword< in all source files for the defined language
-    and writes the result in the >target< file in the /target folder
-    """
-    def source_exe(self, _keyword, _target):
-        #> {}/{}/{}.out , self.settings.get_apppath(), self.targetfolder, _target
-        #exe_string = "{} {} {} [.]*.{}".format(self.C_MAIN, _keyword, self.C_OP_FILES, self.language)
-        #app.logger.debug("ag commad to execute is {}".format(exe_string))
-        try:
+    def source_exe(self, _keyword, file=None):
+        """
+        Looks for the >keyword<
+            in all source files for the defined language if file=None
+            in the given file is file!=None
+        """
 
+        # define which files to look for
+        if file is None:
+            _search_regex = "{}$".format(self.language)
+
+        else:
+            _search_regex = file
+
+        try:
             os.chdir(self.sourcepath)
-            # run ag
-            _output = check_output([self.C_MAIN, _keyword, self.C_OP_FILES + "{}".format(self.language)])
+            # The next command runs silver searcher ag and pipes stdout (binary) to _boutput
+            # Form e.g. "ag if --java"
+            _agproc = Popen([self.C_MAIN, _keyword, self.C_OP_FILES, _search_regex], stdout=PIPE, stderr=PIPE)
+
             os.chdir(self.settings.get_apppath())
 
         except FileNotFoundError:
             raise ExternalDependencyError("Could not find 'ag' installation.")
 
-        app.logger.debug("OUTPUT :: {}".format(_output))
+        _boutput = _agproc.stdout
 
-        # write result to file
-        self.fh.write_to_target(_target, _output, overwrite=True)
+        if _agproc.returncode is not (0 or None):
+            raise ExternalExecutionError("'ag' failed to execute", returncode=_agproc.returncode,
+                                         stderr=_agproc.stderr.read().decode("utf-8"),
+                                         stdout=_boutput.read().decode("utf-8"))
 
-        return _output
+        # List comprehsnion to decode the byte lines coming from the ag call
+        _lines = [l.decode("utf-8").split(":") for l in _boutput.readlines()]
+
+        return _lines
+
+    def to_simple_dic(self, _list):
+        """
+        Turns a list created by source_exe to a dictionary which has
+        filenames as keys and lists of line numbers as values
+        """
+        _res = dict()
+        for el in _list:
+            if el[0] not in _res:
+                _res[el[0]] = list()
+            _res[el[0]].append(int(el[1]))
+            _res[el[0]].sort()
+
+        app.logger.debug("resulting dic is {}".format(_res))
+        return _res
