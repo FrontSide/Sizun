@@ -67,11 +67,11 @@ class InspectionABC(metaclass=ABCMeta):
         self._result[str(ResultKey.ESCALATION)] = EscalationLevel.NO_ERROR
         self._result[str(ResultKey.VIOLATIONS)] = list()
 
-    def note_violation(self, filename, line, info=None):
+    def note_violation(self, filename, line, code=None, info=None):
         """
         Adds the info of a rule violation to the result dictionary
         """
-        violation = {"FILE": filename, "LINE": line, "INFO": info}
+        violation = {"FILE": filename, "LINE": line, "CODE": code, "INFO": info}
         self._result[str(ResultKey.VIOLATIONS)].append(violation)
 
     def add_info(key, value):

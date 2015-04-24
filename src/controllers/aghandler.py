@@ -76,3 +76,20 @@ class AGHandler():
 
         app.logger.debug("resulting dic is {}".format(_res))
         return _res
+
+    def to_full_dic(self, _list):
+        """
+        Turns a list created by source_exe to a dictionary which has
+        filenames as keys and lists of dicts wirh line numbers and the codeline as values
+        """
+        _res = dict()
+        for el in _list:
+            if el[0] not in _res:
+                _res[el[0]] = list()
+            _entry = dict()
+            _entry["line"] = int(el[1])
+            _entry["code"] = el[2].strip()
+            _res[el[0]].append(_entry)
+
+        app.logger.debug("resulting dic is {}".format(_res))
+        return _res
