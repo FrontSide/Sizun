@@ -34,16 +34,15 @@ class AGHandler():
 
         # define which files to look for
         if file is None:
-            _search_regex = "{}$".format(self.language)
-
+            _file_regex = "{}$".format(self.language)
         else:
-            _search_regex = file
+            _file_regex = file
 
         try:
             os.chdir(self.sourcepath)
             # The next command runs silver searcher ag and pipes stdout (binary) to _boutput
             # Form e.g. "ag if --java"
-            _agproc = Popen([self.C_MAIN, _keyword, self.C_OP_FILES, _search_regex], stdout=PIPE, stderr=PIPE)
+            _agproc = Popen([self.C_MAIN, _keyword, self.C_OP_FILES, _file_regex], stdout=PIPE, stderr=PIPE)
 
             os.chdir(self.settings.get_apppath())
 
@@ -62,34 +61,35 @@ class AGHandler():
 
         return _lines
 
-    def to_simple_dic(self, _list):
+    def to_dict(self, _list, includecode=False):
         """
         Turns a list created by source_exe to a dictionary which has
-        filenames as keys and lists of line numbers as values
+        filenames as keys holding each one dict with line numbers as keys and the codeline as values
+        if includecode is True
+
+        { filename :
+            { line : code,
+              line : code }
+        ,etc...}
+
+        By default the code is not included, thus it returns a dictionary with the filenames as keys and
+        lists of line numbers as values
+
+        { filename :
+            [line, line],
+        etc...}
+
         """
         _res = dict()
         for el in _list:
-            if el[0] not in _res:
-                _res[el[0]] = list()
-            _res[el[0]].append(int(el[1]))
-            _res[el[0]].sort()
-
-        app.logger.debug("resulting dic is {}".format(_res))
-        return _res
-
-    def to_full_dic(self, _list):
-        """
-        Turns a list created by source_exe to a dictionary which has
-        filenames as keys and lists of dicts wirh line numbers and the codeline as values
-        """
-        _res = dict()
-        for el in _list:
-            if el[0] not in _res:
-                _res[el[0]] = list()
-            _entry = dict()
-            _entry["line"] = int(el[1])
-            _entry["code"] = el[2].strip()
-            _res[el[0]].append(_entry)
+            if includecode:
+                if el[0] not in _res:
+                    _res[el[0]] = dict()
+                _res[el[0]][int(el[1])] = el[2].strip()
+            else:
+                if el[0] not in _res:
+                    _res[el[0]] = list()
+                _res[el[0]].append(int(el[1]))
 
         app.logger.debug("resulting dic is {}".format(_res))
         return _res

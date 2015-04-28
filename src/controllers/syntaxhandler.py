@@ -25,12 +25,12 @@ class SyntaxHandler:
                     self.language,
                     self.SYNTAXFILES_APPDX))
 
-    def get_if_regex(self):
+    def get_flowpath_regex(self):
         """
         Returns the regex by which if statments can be dedected
         in the specified language's sourcecode
         """
-        return self.confighandler.get(self.ELEMENTS_SECTION, "IF")
+        return self.confighandler.get(self.ELEMENTS_SECTION, "FLOWPATH")
 
     def get_method_regex(self):
         """

@@ -7,11 +7,13 @@ MIT License
 
 from abc import ABCMeta
 
+
 class ErrorABC(Exception, metaclass=ABCMeta):
 
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message=message
+    def throw(self, concrete_error, message, status_code=None, payload=None):
+        super(concrete_error, self).__init__(message)
+        self.message = message
+        self.concrete_error = concrete_error
         if status_code is not None:
                 self.status_code = status_code
         self.payload = payload
@@ -20,4 +22,5 @@ class ErrorABC(Exception, metaclass=ABCMeta):
         rv = dict(self.payload or ())
         rv['type'] = "error"
         rv['message'] = self.message
+        rv['error'] = self.concrete_error
         return rv

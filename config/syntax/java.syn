@@ -1,4 +1,4 @@
 # Java Syntax Page for Code Parsing
 [ELEMENTS]
-IF=if[\s]*[\(]
-METHOD=public|private|package|protected[\s]+[.]*[\w][\(][.]*[\)][\W]*[{]
+FLOWPATH=(if[\s]+[\(])|(try[\s]+[{])|(case[\s]*.*[:])
+METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]

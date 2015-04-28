@@ -13,7 +13,15 @@ class InvalidRequestError(ErrorABC):
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):
-        super().__init__(message)
+        super().throw(message)
+
+
+class NotFoundInConfigError(ErrorABC):
+
+    status_code = 500
+
+    def __init__(self, message, status_code=None, payload=None):
+        super().throw(NotFoundInConfigError, message)
 
 
 class ComprehensionError(ErrorABC):
@@ -21,7 +29,7 @@ class ComprehensionError(ErrorABC):
     status_code = 500
 
     def __init__(self, message, status_code=None, payload=None):
-        super().__init__(message)
+        super().throw(ComprehensionError, message)
 
 
 class UnallowedOperationError(ErrorABC):
@@ -29,7 +37,15 @@ class UnallowedOperationError(ErrorABC):
     status_code = 500
 
     def __init__(self, message, status_code=None, payload=None):
-        super().__init__(message)
+        super().throw(UnallowedOperationError, message)
+
+
+class WrongParametersError(ErrorABC):
+
+    status_code = 500
+
+    def __init__(self, message, status_code=None, payload=None):
+        super().throw(WrongParametersError, message)
 
 
 class ExternalDependencyError(ErrorABC):
@@ -37,7 +53,7 @@ class ExternalDependencyError(ErrorABC):
     status_code = 500
 
     def __init__(self, message, status_code=None, payload=None):
-        super().__init__(message)
+        super().throw(ExternalDependencyError, message)
 
 
 class ExternalExecutionError(ErrorABC):
@@ -45,6 +61,6 @@ class ExternalExecutionError(ErrorABC):
     status_code = 500
 
     def __init__(self, message, status_code=None, payload=None, returncode=None, stderr=None, stdout=None):
-        super().__init__(message)
+        super().throw(ExternalExecutionError, message)
         app.logger.error("returncode :: {}".format(returncode))
         app.logger.error("STDERR :: {}".format(stderr))

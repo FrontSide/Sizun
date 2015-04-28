@@ -5,6 +5,7 @@ MIT License
 (C) 2015 David Rieger
 """
 import configparser
+from errorhandlers.concrete_error import NotFoundInConfigError
 
 
 class ConfigHandler:
@@ -37,7 +38,7 @@ class ConfigHandler:
         try:
             return self.config[key][subkey]
         except KeyError:
-            return None
+            raise NotFoundInConfigError("file:: {}, key:: {}, subkey:: {}".format(self.path, key, subkey))
 
     """
     Returns the set boolean value of a given key
@@ -50,4 +51,4 @@ class ConfigHandler:
         try:
             return self.config.getboolean(key, subkey)
         except KeyError:
-            return False
+            raise NotFoundInConfigError("file:: {}, key:: {}, subkey:: {}".format(self.path, key, subkey))
