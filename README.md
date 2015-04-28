@@ -65,7 +65,6 @@ Development
 - Lazy Class Detection for JAVA
 - Large/God Class Detection for JAVA
 - Long Parameter List Detection for JAVA
--
 
 The development of Sizun has only started in mid-march 2015.
 A first useable prototype should be available by mid-may!
