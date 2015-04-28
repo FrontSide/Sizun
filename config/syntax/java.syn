@@ -1,4 +1,11 @@
 # Java Syntax Page for Code Parsing
 [ELEMENTS]
+
+# Lines that represent nodes of flow graphs and thus increase cyclomatic complexity
 FLOWPATH=(if[\s]+[\(])|(try[\s]+[{])|(case[\s]*.*[:])
+
+# Lines that start a new method
 METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]
+
+# Lines that assign a value to another one
+REFERENCE=[\w]+[\s]+[=][\s]+[\w]+

@@ -2,7 +2,9 @@
 sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
 language = java
 target = results
+pmdexe = vendors/pmd/bin/run.sh
 
 [INSPECTION]
 cc = true
+cd = true
 

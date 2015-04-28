@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# This function checks whether 
+VENDOR_FOLDER="vendors"
+
+# Switch to directory of this script
+cd $(dirname $BASH_SOURCE[0])
+
+# This function checks whether
 # the last command has returned an error
 # and informs the user and aborts the script if so
-chk() {
+function chk() {
 
     OUT=$?
 
@@ -13,7 +18,7 @@ chk() {
     fi
 
     echo "fatal error: $OUT"
-        
+
     if [ $OUT -eq 127 ];then
         echo "is $PRO installed?"
     fi
@@ -22,14 +27,48 @@ chk() {
 
 }
 
+PMD_VERSION="5.2.3"
+PMD_DL_LINK="http://downloads.sourceforge.net/project/pmd/pmd/$PMD_VERSION/pmd-bin-$PMD_VERSION.zip?r=http%3A%2F%2Fpmd.sourceforge.net%2F&ts=1430211962&use_mirror=cznic"
+PMD_FOLDER="pmd"
+PATH_TO_PMD_SCRIPT="./$VENDOR_FOLDER/$PMD_FOLDER/bin/run.sh"
+function install_pmd() {
+
+    if [ ! -d $VENDOR_FOLDER ];then
+        mkdir $VENDOR_FOLDER
+    fi
+
+    cd $VENDOR_FOLDER
+
+    wget $PMD_DL_LINK
+    unzip "pmd-bin-$PMD_VERSION.zip"*
+
+    rm -r $PMD_FOLDER
+    mv "pmd-bin-$PMD_VERSION" $PMD_FOLDER
+
+    cd ".."
+
+}
+
 echo "install python tools..."
 PRO="pip3"
 eval $PRO install -r ./requirements.txt
 chk
 
+echo "check pmd installation ($PATH_TO_PMD_SCRIPT)..."
+if [ ! -f $PATH_TO_PMD_SCRIPT ];then
+    echo "pmd not found..."
+    echo "download and install pmd..."
+    install_pmd
+else
+    echo "pmd is installed!"
+fi
+
+# echo "try pmd..."
+# PRO="$PATH_TO_PMD_SCRIPT -v"
+# eval $PRO
+# chk
+
 echo "start application..."
-#source ./bin/activate
 PRO="python3"
 eval $PRO ./src/main.py
 chk
-

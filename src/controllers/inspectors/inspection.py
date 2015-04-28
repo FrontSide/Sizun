@@ -9,6 +9,7 @@ from abc import ABCMeta, abstractmethod
 from enum import Enum, IntEnum, unique
 from controllers.filehandler import FileHandler
 from controllers.aghandler import AGHandler
+from controllers.pmdhandler import PMDHandler
 from controllers.syntaxhandler import SyntaxHandler
 from controllers.rulehandler import RuleHandler
 from flask import current_app as app
@@ -21,6 +22,7 @@ class InspectionRunner:
         self.ag = AGHandler(self.settings)
         self.syntaxhandler = SyntaxHandler(self.settings)
         self.rulehandler = RuleHandler(self.settings)
+        self.pmd = PMDHandler(self.settings)
 
     """
     Run the full inspection suite
@@ -34,6 +36,11 @@ class InspectionRunner:
         if self.settings.isset_inspection("CC"):
             from .circular_complexity import CCInspector
             result["CC"] = CCInspector(self.ag, self.syntaxhandler, self.rulehandler).run()
+
+        # Code Duplication
+        if self.settings.isset_inspection("CD"):
+            from .code_duplication import CDInspector
+            result["CD"] = CDInspector(self.pmd, self.rulehandler).run()
 
         return result
 
@@ -59,6 +66,7 @@ class InspectionABC(metaclass=ABCMeta):
         Must be overridden by the concrete
         inspector subclass and must call this super method
         i.e. super().inspect()
+        ! DO NOT ! DIRECTLY CALL THIS METHOD FROM THE INSPECTION RUNNER
         """
         app.logger.debug("An inspection has been triggered...")
 

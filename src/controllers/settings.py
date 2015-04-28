@@ -17,6 +17,7 @@ class InspectionSettings:
     SOURCEPATH_KEY = "SOURCEPATH"
     LANGUAGE_KEY = "LANGUAGE"
     TARGET_KEY = "TARGET"
+    PMDEXE_KEY = "PMDEXE"
 
     def __init__(self, _config):
         self.fh = FileHandler(self)
@@ -41,12 +42,12 @@ class InspectionSettings:
 
     def get_language(self):
         _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
-        if not _language:
-            try:
-                _language = self.fh.detect_language()
-            except ValueError:
-                raise ComprehensionError("""Could not find src files
-                                            in source path root""")
+        try:
+            _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
+        except NotFoundInConfigError:
+            _language = None
+        if _language is None:
+            _language = self.fh.detect_language()
 
         self.set_language(_language)
         return _language
@@ -58,8 +59,9 @@ class InspectionSettings:
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
 
     def get_sourcepath(self):
-        _sourcepath = self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
-        if not _sourcepath:
+        try:
+            return self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
+        except NotFoundInConfigError:
             raise InvalidRequestError("No source path in config file found")
 
         return _sourcepath
@@ -73,12 +75,19 @@ class InspectionSettings:
         self.conf.set(self.BASIC_SECTION_KEY, self.TARGET_KEY, _targetfolder)
 
     def get_targetfolder(self):
-        _targetfolder = self.conf.get(self.BASIC_SECTION_KEY, self.TARGET_KEY)
-        if not _targetfolder:
-            raise InvalidRequestError("""No target folder path
-                                        in config file found""")
+        try:
+            return self.conf.get(self.BASIC_SECTION_KEY, self.TARGET_KEY)
+        except NotFoundInConfigError:
+            raise InvalidRequestError("No target folder path in config file found")
 
-        return _targetfolder
+    """
+    Handels the path to the PMD executable
+    """
+    def get_pmdexe(self):
+        try:
+            return self.conf.get(self.BASIC_SECTION_KEY, self.PMDEXE_KEY)
+        except NotFoundInConfigError:
+            raise InvalidRequestError("Failed to find execution path for PMD")
 
     """
     Handles whether a metric is enabled/disabled for inspection

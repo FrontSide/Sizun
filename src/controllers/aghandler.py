@@ -6,10 +6,9 @@ MIT License
 """
 from .confighandler import ConfigHandler
 from .filehandler import FileHandler
-from errorhandlers.concrete_error import ExternalDependencyError, ExternalExecutionError
-import os
-from subprocess import Popen, PIPE
+from .externalexecutor import ExternalExecutor
 from flask import current_app as app
+import os
 
 
 class AGHandler():
@@ -38,28 +37,11 @@ class AGHandler():
         else:
             _file_regex = file
 
-        try:
-            os.chdir(self.sourcepath)
-            # The next command runs silver searcher ag and pipes stdout (binary) to _boutput
-            # Form e.g. "ag if --java"
-            _agproc = Popen([self.C_MAIN, _keyword, self.C_OP_FILES, _file_regex], stdout=PIPE, stderr=PIPE)
+        os.chdir(self.sourcepath)
+        _out = ExternalExecutor.exe([self.C_MAIN, _keyword, self.C_OP_FILES, _file_regex], resultdelimiter=":")
+        os.chdir(self.settings.get_apppath())
 
-            os.chdir(self.settings.get_apppath())
-
-        except FileNotFoundError:
-            raise ExternalDependencyError("Could not find 'ag' installation.")
-
-        _boutput = _agproc.stdout
-
-        if _agproc.returncode is not (0 or None):
-            raise ExternalExecutionError("'ag' failed to execute", returncode=_agproc.returncode,
-                                         stderr=_agproc.stderr.read().decode("utf-8"),
-                                         stdout=_boutput.read().decode("utf-8"))
-
-        # List comprehsnion to decode the byte lines coming from the ag call
-        _lines = [l.decode("utf-8").split(":") for l in _boutput.readlines()]
-
-        return _lines
+        return _out
 
     def to_dict(self, _list, includecode=False):
         """
