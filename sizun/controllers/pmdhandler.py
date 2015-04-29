@@ -81,14 +81,14 @@ class PMDHandler():
             _dup = dict()
             if _lines.index(l) is 0 or len(l) < 5:
                 continue
-            _dup["lines"] = l[0]
-            _dup["tokens"] = l[1]
-            _dup["occurences"] = l[2]
+            _dup["lines"] = int(l[0])
+            _dup["tokens"] = int(l[1])
+            _dup["occurences"] = int(l[2])
             _dup["files"] = dict()
             l_rest = l[3:]
             for i in range(0, len(l_rest)-1, 2):
                 _filename = l_rest[i+1].rstrip("\n").replace(self.sourcepath + "/", "")
-                _dup["files"][_filename] = l_rest[i]
+                _dup["files"][_filename] = int(l_rest[i])
             _res.append(_dup)
         app.logger.debug("cpd_to_dict :: {}".format(_res))
         return _res

@@ -28,11 +28,11 @@ class CDInspector(InspectionABC):
         for _dup in _duplications:
             self.escalate()
             _files = list(_dup["files"].keys())
-            _occ_tupes = ["{} from line {}".format(k, v) for (k, v) in _dup["files"].items() if k is not _files[0]]
-            _note = "Duplicated in :: {}".format(", ".join(_occ_tupes))
-            self.note_violation(_files[0], _dup["files"][_files[0]], None, _note)
-            _code_in_line = self.linegrabber.get_lines(_files[0], _dup["files"][_files[0]])
-            app.logger.debug("Code from line {} in file {} is :: {}".format(_dup["files"][_files[0]], _files[0], _code_in_line))
+            _start_line = _dup["files"][_files[0]]
+            _end_line = _start_line + _dup["lines"] - 1
+            _duplicated_code = self.linegrabber.get_lines(_files[0], start_line=_start_line, end_line=_end_line)
+
+            self.note_violation(_dup["files"], None, _duplicated_code, None)
 
     def _find_all_duplications(self):
         _list = self.pmd.cpd_exe(self.MINIMUM_TOKENS)
