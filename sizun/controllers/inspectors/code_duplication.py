@@ -6,18 +6,20 @@ MIT License
 """
 
 from flask import current_app as app
-from errorhandlers.concrete_error import ExternalDependencyError
+from sizun.errorhandlers.concrete_error import ExternalDependencyError
 from .inspection import InspectionABC
-from controllers.agresulthelper import AGResultHelper
+from sizun.controllers.aghandler import AGResultHelper
+from sizun.controllers.linegrabber import LineGrabber
 
 
 class CDInspector(InspectionABC):
 
-    def __init__(self, pmdhandler, rulehandler):
+    def __init__(self, pmdhandler, rulehandler, linegrabber):
         self.pmd = pmdhandler
         self.INSPECTION = "CD"
         self.rule = rulehandler
         self.MINIMUM_TOKENS = self.rule.get_value("CD", "MIN_TOKENS")
+        self.linegrabber = linegrabber
 
     def inspect(self):
         super().inspect()
@@ -26,11 +28,11 @@ class CDInspector(InspectionABC):
         for _dup in _duplications:
             self.escalate()
             _files = list(_dup["files"].keys())
-            app.logger.debug("_dub :: {}".format(_files))
-            _dup_files = _files[1:]
-            app.logger.debug("_dub :: {}".format(_dup_files))
-            _note = "Duplicated in :: {}".format(", ".join(_dup_files))
+            _occ_tupes = ["{} from line {}".format(k, v) for (k, v) in _dup["files"].items() if k is not _files[0]]
+            _note = "Duplicated in :: {}".format(", ".join(_occ_tupes))
             self.note_violation(_files[0], _dup["files"][_files[0]], None, _note)
+            _code_in_line = self.linegrabber.get_lines(_files[0], _dup["files"][_files[0]])
+            app.logger.debug("Code from line {} in file {} is :: {}".format(_dup["files"][_files[0]], _files[0], _code_in_line))
 
     def _find_all_duplications(self):
         _list = self.pmd.cpd_exe(self.MINIMUM_TOKENS)

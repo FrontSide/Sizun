@@ -6,9 +6,9 @@ MIT License
 """
 
 from flask import current_app as app
-from errorhandlers.concrete_error import ExternalDependencyError
+from sizun.errorhandlers.concrete_error import ExternalDependencyError
 from .inspection import InspectionABC
-from controllers.agresulthelper import AGResultHelper
+from sizun.controllers.aghandler import AGResultHelper
 
 
 class CCInspector(InspectionABC):
@@ -44,7 +44,6 @@ class CCInspector(InspectionABC):
             _path_counter[_file] = {k: len(v) for (k, v) in _paths_in_methods.items()}
 
             for _method_start_line, _num_paths in _path_counter[_file].items():
-                # app.logger.debug("check for too high complexity. File:: {}, Method:: {}, Paths::{}".format(_file, _method_start_line, _num_paths))
                 if _num_paths > self.MAX_COMPLEXITY:
                     _note = "complexity is {}".format(_num_paths)
                     _code = AGResultHelper.get_code(_all_methods, _file, _method_start_line)

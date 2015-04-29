@@ -7,7 +7,7 @@ MIT License
 
 from flask import current_app as app
 from abc import ABCMeta
-from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
+from sizun.errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import logging
 import os
 

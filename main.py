@@ -6,13 +6,13 @@ MIT License
 """
 
 from flask import Flask, request, jsonify, Response
-from controllers.filehandler import FileHandler
-from errorhandlers.concrete_error import InvalidRequestError,\
+from sizun.controllers.filehandler import FileHandler
+from sizun.errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
                                          ExternalDependencyError
-from controllers.confighandler import ConfigHandler
-from controllers.settings import InspectionSettings
-from controllers.inspectors.inspection import InspectionRunner
+from sizun.controllers.confighandler import ConfigHandler
+from sizun.controllers.settings import InspectionSettings
+from sizun.controllers.inspectors.inspection import InspectionRunner
 
 # Main Application and Routing
 app = Flask(__name__)

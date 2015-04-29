@@ -7,11 +7,12 @@ MIT License
 
 from abc import ABCMeta, abstractmethod
 from enum import Enum, IntEnum, unique
-from controllers.filehandler import FileHandler
-from controllers.aghandler import AGHandler
-from controllers.pmdhandler import PMDHandler
-from controllers.syntaxhandler import SyntaxHandler
-from controllers.rulehandler import RuleHandler
+from sizun.controllers.filehandler import FileHandler
+from sizun.controllers.aghandler import AGHandler
+from sizun.controllers.pmdhandler import PMDHandler
+from sizun.controllers.syntaxhandler import SyntaxHandler
+from sizun.controllers.rulehandler import RuleHandler
+from sizun.controllers.linegrabber import LineGrabber
 from flask import current_app as app
 
 
@@ -23,6 +24,7 @@ class InspectionRunner:
         self.syntaxhandler = SyntaxHandler(self.settings)
         self.rulehandler = RuleHandler(self.settings)
         self.pmd = PMDHandler(self.settings)
+        self.linegrabber = LineGrabber(self.settings)
 
     """
     Run the full inspection suite
@@ -40,7 +42,7 @@ class InspectionRunner:
         # Code Duplication
         if self.settings.isset_inspection("CD"):
             from .code_duplication import CDInspector
-            result["CD"] = CDInspector(self.pmd, self.rulehandler).run()
+            result["CD"] = CDInspector(self.pmd, self.rulehandler, self.linegrabber).run()
 
         return result
 

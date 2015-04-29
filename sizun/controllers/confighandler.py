@@ -5,7 +5,7 @@ MIT License
 (C) 2015 David Rieger
 """
 import configparser
-from errorhandlers.concrete_error import NotFoundInConfigError
+from sizun.errorhandlers.concrete_error import NotFoundInConfigError
 
 
 class ConfigHandler:

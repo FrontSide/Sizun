@@ -66,6 +66,15 @@ class PMDHandler():
                                     minimum_tokens], resultdelimiter=",")
 
     def cpd_to_dict(self, _lines):
+        """
+        Returns a list of dictionaries whereas each dict is
+        one duplication issue. With keys:
+        @lines for the number of lines of the duplicated code
+        @tokens for the number of tokens of the duplicated code
+        @occurrences for the numver of duplications of this issue
+        @files >a dictionary< with all files as keys that accommodate this duplication
+               and its start line number as value
+        """
         _res = list()
 
         for l in _lines:
@@ -78,7 +87,7 @@ class PMDHandler():
             _dup["files"] = dict()
             l_rest = l[3:]
             for i in range(0, len(l_rest)-1, 2):
-                _filename = l_rest[i+1].rstrip("\n")
+                _filename = l_rest[i+1].rstrip("\n").replace(self.sourcepath + "/", "")
                 _dup["files"][_filename] = l_rest[i]
             _res.append(_dup)
         app.logger.debug("cpd_to_dict :: {}".format(_res))

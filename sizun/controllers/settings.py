@@ -5,8 +5,8 @@ MIT License
 (C) 2015 David Rieger
 """
 
-from controllers.filehandler import FileHandler
-from errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
+from .filehandler import FileHandler
+from sizun.errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
 import os
 
 

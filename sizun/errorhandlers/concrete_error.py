@@ -5,7 +5,7 @@ MIT License
 (C) 2015 David Rieger
 """
 from flask import jsonify, current_app as app
-from errorhandlers.abc_error import ErrorABC
+from .abc_error import ErrorABC
 
 
 class InvalidRequestError(ErrorABC):
@@ -22,6 +22,14 @@ class NotFoundInConfigError(ErrorABC):
 
     def __init__(self, message, status_code=None, payload=None):
         super().throw(NotFoundInConfigError, message)
+
+
+class LineNotFoundError(ErrorABC):
+
+    status_code = 500
+
+    def __init__(self, message, status_code=None, payload=None):
+        super().throw(LineNotFoundError, message)
 
 
 class ComprehensionError(ErrorABC):
