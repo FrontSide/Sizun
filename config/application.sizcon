@@ -1,8 +1,8 @@
 [BASIC]
-sourcepath = sdf
-language = java
+sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
 target = result
 pmdexe = vendors/pmd/bin/run.sh
+language = java
 
 [INSPECTION]
 cc = true

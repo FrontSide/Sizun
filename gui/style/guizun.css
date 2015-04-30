@@ -18,6 +18,14 @@ body {
     background-color: #F54C0A;
 }
 
+.splash .error {
+    background-color: #222222;
+}
+
+label {
+    font-weight: bold;
+}
+
 button.pure-button-primary {
     background-color: #FFFFFF;
     width: 150px;

@@ -8,8 +8,9 @@
 function check_connection() {
     console.log("check connection:")
     try {
-        $.get('http://localhost:5000/', function (data) {
+        $.getJSON('http://localhost:5000/', function (data) {
         }).done(function() {
+            hide_error()
             enable_run_btn()
         }).fail(function() {
             notice_noconnect()
@@ -21,34 +22,33 @@ function check_connection() {
 
 function get_language() {
     console.log("check connection:")
-    try {
         $.getJSON('http://localhost:5000/language/get', function (data) {
+        }).done(function(data) {
+            hide_error()
             notice_language(data["LANG"])
-        }).done(function() {
-        }).fail(function() {
-            notice_language("n/A")
+        }).fail(function(data) {
+            prompt_error(data.responseJSON["message"], data.responseJSON["type"])
         })
-    } catch(e) {
-        notice_noconnect()
-    }
 }
 
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
     $.getJSON("http://localhost:5000/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
         }).done(function() {
+            hide_error()
             get_language()
         }).fail(function() {
-            notice_noconnect()
+            prompt_error("failed to update sourcepath", "warning")
         })
 }
 
 function run_inspection() {
     console.log("run inspection...")
     $.getJSON('http://localhost:5000/run', function (data) {
-        }).done(function() {
-            console.log("OK!")
-        }).fail(function() {
+        }).done(function(data) {
+            hide_error()
+            show_inspection_results(data)
+        }).fail(function(data) {
             notice_noconnect()
         })
 }

@@ -41,7 +41,7 @@ def home():
     """
     Root/Home Page
     """
-    return "Salute monde..."
+    return jsonify({"Status": "OK"})
 
 
 @app.route(r_set_srcpath)
@@ -50,7 +50,7 @@ def set_srcpath(sourcepath):
     Set the sourcepath where the inspection is conducted
     """
     inspsettings.set_sourcepath(sourcepath.strip("'"))
-    return "OK"
+    return jsonify({"Status": "OK"})
 
 
 @app.route(r_get_srcpath_tree)
@@ -95,7 +95,7 @@ def store():
     content = request.args.get('c')
     fh = Filehandler()
     fh.write_to_target("testfile", content)
-    return "OK"
+    return jsonify({"Status": "OK"})
 
 # Run app
 if __name__ == "__main__":

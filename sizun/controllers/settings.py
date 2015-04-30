@@ -27,6 +27,7 @@ class InspectionSettings:
         self.fh = FileHandler(self)
         self.conf = _config
         self.apppath = os.getcwd()
+        self.CHANGED_SOURCEPATH = True
 
     def reset(self):
         """
@@ -52,13 +53,14 @@ class InspectionSettings:
         self.conf.set(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY, _language)
 
     def get_language(self):
-        _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         try:
             _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         except NotFoundInConfigError:
             _language = None
-        if _language is None:
+
+        if _language is None or self.CHANGED_SOURCEPATH is True:
             _language = self.fh.detect_language()
+            self.CHANGED_SOURCEPATH = False
 
         self.set_language(_language)
         return _language
@@ -68,6 +70,7 @@ class InspectionSettings:
         Handles the sourcepath settings in the main config file
         """
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
+        self.notice_sourcepath_changed()
 
     def get_sourcepath(self):
         try:
@@ -76,6 +79,12 @@ class InspectionSettings:
             raise InvalidRequestError("No source path in config file found")
 
         return _sourcepath
+
+    def notice_sourcepath_changed(self):
+        """
+        Set flag that sourcepath has been changed
+        """
+        self.CHANGED_SOURCEPATH = True
 
     """
     Handles the target folder settings in the main config file
