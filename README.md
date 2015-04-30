@@ -92,4 +92,4 @@ Planned release date vor **v0.1.0-alpha** is the **28. May 2015**<br />
 Current: **v0.1-dev** (initial rapid development)
 
 ### In-Browser GUI
-Currently not in development, but definitely planned. Should be easy to implement due to the ReST-API and the JSON responses.
+Development in branch: [gui-1](https://github.com/FrontSide/Sizun/tree/gui-1)
