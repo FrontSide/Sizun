@@ -19,8 +19,8 @@ class ErrorABC(Exception, metaclass=ABCMeta):
         self.payload = payload
 
     def to_dict(self):
-        rv = dict(self.payload or ())
+        rv = dict()
         rv['type'] = "error"
         rv['message'] = self.message
-        rv['error'] = self.concrete_error
+        rv['error'] = "dfsf" # self.concrete_error
         return rv

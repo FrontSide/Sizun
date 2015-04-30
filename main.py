@@ -6,6 +6,7 @@ MIT License
 """
 
 from flask import Flask, request, jsonify, Response
+from flask.ext.cors import CORS, cross_origin
 from sizun.controllers.filehandler import FileHandler
 from sizun.errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
@@ -19,8 +20,11 @@ app = Flask(__name__)
 routch = ConfigHandler('config/routes.sizcon')
 mainch = ConfigHandler('config/application.sizcon')
 inspsettings = InspectionSettings(mainch)
+inspsettings.reset()
 fh = FileHandler(inspsettings)
 
+# Allow Cross Origin Resource Sharing on ALL ROUTES
+cors = CORS(app)
 
 # Load Routes from config file
 r_home = routch.get("VIEW", "HOME")
@@ -45,7 +49,7 @@ def set_srcpath(sourcepath):
     """
     Set the sourcepath where the inspection is conducted
     """
-    inspsettings.set_sourcepath(sourcepath)
+    inspsettings.set_sourcepath(sourcepath.strip("'"))
     return "OK"
 
 
@@ -79,7 +83,7 @@ def run_full_inspection():
     try:
         app.logger.debug("convert dict to json...")
         return jsonify(InspectionRunner(inspsettings).run())
-    except ExternalDependencyError as error:
+    except (ExternalDependencyError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
 
 

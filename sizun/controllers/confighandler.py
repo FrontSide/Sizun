@@ -14,10 +14,12 @@ class ConfigHandler:
         self.path = path
         self.config = configparser.ConfigParser()
 
-    """
-    Sets a value to a given key
-    """
     def set(self, key, subkey, value):
+        """
+        Sets a value to a given key
+        """
+        with open(self.path, 'r') as configfile:
+            self.config.read_file(configfile)
 
         # Create section if not existent
         if key not in self.config.sections():
@@ -28,10 +30,10 @@ class ConfigHandler:
         with open(self.path, 'w') as configfile:
             self.config.write(configfile)
 
-    """
-    Returns the set value of a given key
-    """
     def get(self, key, subkey):
+        """
+        Returns the set value of a given key
+        """
         with open(self.path, 'r') as configfile:
             self.config.read_file(configfile)
 
@@ -40,11 +42,10 @@ class ConfigHandler:
         except KeyError:
             raise NotFoundInConfigError("file:: {}, key:: {}, subkey:: {}".format(self.path, key, subkey))
 
-    """
-    Returns the set boolean value of a given key
-    """
     def isset(self, key, subkey):
-
+        """
+        Returns the set boolean value of a given key
+        """
         with open(self.path, 'r') as configfile:
             self.config.read_file(configfile)
 
@@ -52,3 +53,17 @@ class ConfigHandler:
             return self.config.getboolean(key, subkey)
         except KeyError:
             raise NotFoundInConfigError("file:: {}, key:: {}, subkey:: {}".format(self.path, key, subkey))
+
+    def setall(old, new):
+        """
+        STATIC
+        Overwrites all settings from file behind
+        ConfigHandler old with those from file behind ConfigHandler new
+        """
+        with open(new.path, 'r') as configfile:
+            # Read setting from new file into new confighandler
+            new.config.read_file(configfile)
+
+        with open(old.path, 'w') as configfile:
+            # Write setting from new file/confighandler into old confighandler/file
+            new.config.write(configfile)

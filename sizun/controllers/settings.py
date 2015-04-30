@@ -6,8 +6,10 @@ MIT License
 """
 
 from .filehandler import FileHandler
-from sizun.errorhandlers.concrete_error import ComprehensionError, InvalidRequestError
+from sizun.errorhandlers.concrete_error import ComprehensionError, InvalidRequestError, NotFoundInConfigError
+from .confighandler import ConfigHandler
 import os
+from flask import current_app as app
 
 
 class InspectionSettings:
@@ -19,12 +21,21 @@ class InspectionSettings:
     TARGET_KEY = "TARGET"
     PMDEXE_KEY = "PMDEXE"
 
+    PATH_TO_DEF_CONFIG = "config/application.sizcon.default"
+
     def __init__(self, _config):
         self.fh = FileHandler(self)
         self.conf = _config
         self.apppath = os.getcwd()
 
     def reset(self):
+        """
+        Load all from default settings
+        """
+        # app.logger.debug("Reset Inspection Config")
+        ch_old = ConfigHandler(self.conf.path)
+        ch_new = ConfigHandler(self.PATH_TO_DEF_CONFIG)
+        ConfigHandler.setall(old=ch_old, new=ch_new)
         return
 
     """

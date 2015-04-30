@@ -13,7 +13,7 @@ class InvalidRequestError(ErrorABC):
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):
-        super().throw(message)
+        super().throw(InvalidRequestError, message)
 
 
 class NotFoundInConfigError(ErrorABC):
