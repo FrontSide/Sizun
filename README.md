@@ -11,8 +11,7 @@ Download the latest working release (atm. there's just the master branch, though
 
 ## Requirements
 
-- python3
-- pip3
+- python3.4+ with pip
 - [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Sizun is also using [PMD](http://pmd.sourceforge.net/pmd-5.2.3/) with CPD in version **5.2.3**.
