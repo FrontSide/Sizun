@@ -22,8 +22,8 @@ function check_connection() {
 function get_language() {
     console.log("check connection:")
     try {
-        $.get('http://localhost:5000/language/get', function (data) {
-            notice_language(data)
+        $.getJSON('http://localhost:5000/language/get', function (data) {
+            notice_language(data["LANG"])
         }).done(function() {
         }).fail(function() {
             notice_language("n/A")
@@ -35,7 +35,7 @@ function get_language() {
 
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
-    $.get("http://localhost:5000/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
+    $.getJSON("http://localhost:5000/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
         }).done(function() {
             get_language()
         }).fail(function() {
@@ -45,7 +45,7 @@ function update_sourcepath(SOURCEPATH) {
 
 function run_inspection() {
     console.log("run inspection...")
-    $.get('http://localhost:5000/run', function (data) {
+    $.getJSON('http://localhost:5000/run', function (data) {
         }).done(function() {
             console.log("OK!")
         }).fail(function() {
