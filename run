@@ -63,6 +63,14 @@ else
     echo "pmd is installed!"
 fi
 
+#echo "install gui..."
+#echo "install 'request'..."
+#PRO="npm"
+#cd gui/controllers
+#eval $PRO install request
+#cd ../..
+#chk
+
 # echo "try pmd..."
 # PRO="$PATH_TO_PMD_SCRIPT -v"
 # eval $PRO
@@ -70,5 +78,8 @@ fi
 
 echo "start application..."
 PRO="python3"
-eval $PRO ./main.py
+eval $PRO ./main.py &
 chk
+
+echo "open gui in default browser..."
+x-www-browser gui/index.html

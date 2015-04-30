@@ -27,7 +27,8 @@ Scripts/
 pyvenv.cfg
 bin/
 grep
-
+node_modules/
+include/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

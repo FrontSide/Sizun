@@ -6,6 +6,7 @@ MIT License
 """
 
 from flask import Flask, request, jsonify, Response
+from flask.ext.cors import CORS
 from sizun.controllers.filehandler import FileHandler
 from sizun.errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
@@ -21,6 +22,8 @@ mainch = ConfigHandler('config/application.sizcon')
 inspsettings = InspectionSettings(mainch)
 fh = FileHandler(inspsettings)
 
+# Allow Cross Origin Resource Sharing on ALL ROUTES
+cors = CORS(app)
 
 # Load Routes from config file
 r_home = routch.get("VIEW", "HOME")

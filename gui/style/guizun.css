@@ -1,0 +1,30 @@
+body {
+    background-color: #EFEFEF
+}
+
+.splash-container {
+    width: 50%;
+    min-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top:10%;
+    color: #FFF;
+}
+
+.splash-container > .splash {
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    background-color: #F54C0A;
+}
+
+button.pure-button-primary {
+    background-color: #FFFFFF;
+    width: 150px;
+    color:#555;
+}
+
+.pure-form > fieldset > .pure-control-group > input {
+    color:#222;
+    width:50%;
+}
