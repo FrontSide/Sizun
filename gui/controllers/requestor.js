@@ -8,7 +8,7 @@
 function check_connection() {
     console.log("check connection:")
     try {
-        $.get('http://localhost:5000', function (data) {
+        $.get('http://localhost:5000/', function (data) {
         }).done(function() {
             enable_run_btn()
         }).fail(function() {
@@ -19,11 +19,25 @@ function check_connection() {
     }
 }
 
+function get_language() {
+    console.log("check connection:")
+    try {
+        $.get('http://localhost:5000/language/get', function (data) {
+            notice_language(data)
+        }).done(function() {
+        }).fail(function() {
+            notice_language("n/A")
+        })
+    } catch(e) {
+        notice_noconnect()
+    }
+}
+
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
-    $.get('http://localhost:5000/sourcepath/set/' + SOURCEPATH, function (data) {
+    $.get("http://localhost:5000/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
         }).done(function() {
-            console.log("OK!")
+            get_language()
         }).fail(function() {
             notice_noconnect()
         })

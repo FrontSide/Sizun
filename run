@@ -79,6 +79,7 @@ fi
 echo "start application..."
 PRO="python3"
 eval $PRO ./main.py &
+echo "pid of python is :: $!"
 chk
 
 echo "open gui in default browser..."

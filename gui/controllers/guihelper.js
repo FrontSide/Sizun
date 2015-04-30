@@ -13,3 +13,7 @@ function notice_noconnect() {
 function enable_run_btn() {
     $("#b_run").removeAttr("disabled")
 }
+
+function notice_language(LANGUAGE) {
+    $("#l_language").html(LANGUAGE)
+}
