@@ -13,12 +13,15 @@ Download the latest working release (atm. there's just the master branch, though
 
 - python3.4+ with pip
 - [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+- [Gunicorn](http://gunicorn.org/)
 
 Sizun is also using [PMD](http://pmd.sourceforge.net/pmd-5.2.3/) with CPD in version **5.2.3**.
 This is, however, downloaded automatically during the first run.<br />
 <sub>(Version 5.3.x of PMD would be available but CPD fails in creating a CSV output which makes the software a little useless for Sizun)</sub>
 
-## Usage
+Right now you also might have to install some python modules manually with pip since this might request root permission. Optionally you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
+
+## Usage (Temporary Solution)
 ### 1. Run with:
 
     ./run
@@ -84,6 +87,7 @@ TBA  | Change rule for Inspection Metric
 - Long Parameter List Detection for JAVA
 - ReST API command for changing Metric Rules
 - ReST API command for (de)activating Metric Executions
+- CLI for running inspections and simple configurations (so that nobody needs to tinker about in the config file)
 
 The development of Sizun has only started in mid-march 2015.
 A first useable prototype should be available by mid-may!
