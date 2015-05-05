@@ -19,7 +19,7 @@ Sizun is also using [PMD](http://pmd.sourceforge.net/pmd-5.2.3/) with CPD in ver
 This is, however, downloaded automatically during the first run.<br />
 <sub>(Version 5.3.x of PMD would be available but CPD fails in creating a CSV output which makes the software a little useless for Sizun)</sub>
 
-Right now you also might have to install some python modules manually with pip since this might request root permission. Optionally you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
+Right now you also might have to install some python modules manually with pip since this might request root permission. **Alternatively** you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
 
 ## Usage (Temporary Solution)
 ### 1. Run with:
