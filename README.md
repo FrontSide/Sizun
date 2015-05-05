@@ -65,10 +65,15 @@ Request | Description
 ------- | -----------
 `/run`  | Run full code inspection
 `/sourcepath/set/[sourcepath]`  | Set path to application to inspect
+`/sourcepath/get`  | Get path to application to inspect
 `/language/set/[language]`  | Set programming language*
-TBA  | Activate Metric Execution
-TBA  | Deactivate Metric Execution
-TBA  | Change rule for Inspection Metric
+`/language/get`  | Get programming language*
+`/inspection/activate/[metricname]`  | Activate Metric Execution
+`/inspection/deactivate/[metricname]`  | Deactivate Metric Execution
+`/inspection/isset/[metricname]`  | Check if Metric Execution is activated
+`/inspection/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
+`/inspection/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
+`/inspection/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
 *The sourcecode's language is by default automatically detected.
 
 
@@ -79,14 +84,14 @@ TBA  | Change rule for Inspection Metric
 **Working so far:**
 - Complexity Measurement for JAVA
 - Code Duplication Measurement for JAVA
+- ReST API command for changing Metric Rules
+- ReST API command for (de)activating Metric Executions
 
 **In effective development (Planned for v0.1.0-alpha):**
 - Complexity Measurement for PYTHON
 - Lazy Class Detection for JAVA
 - Large/God Class Detection for JAVA
 - Long Parameter List Detection for JAVA
-- ReST API command for changing Metric Rules
-- ReST API command for (de)activating Metric Executions
 - CLI for running inspections and simple configurations (so that nobody needs to tinker about in the config file)
 
 The development of Sizun has only started in mid-march 2015.
