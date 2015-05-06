@@ -5,6 +5,9 @@
   * (C) 2015 David Rieger
   */
 
+
+var GLOBAL_LANGUAGE = "java"
+
 $(document).foundation();
 
 hide_error()

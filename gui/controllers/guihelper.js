@@ -21,14 +21,60 @@ function notice_language(LANGUAGE) {
 function show_inspection_results(result) {
     printdata = ""
     $.each(result, function(k, v){
-        printdata += "<h2>" + k + "</h2>"
-        $.each(v, function(k, v){
-            printdata += "<h4>" + k + "</h4>"
-            printdata += v
+
+        printdata += "<div class='row'>"
+        printdata += "<div class='large-5 columns panel-metric-header metricname-panel'>" + k + "</div>"
+        printdata += "<div class='large-5 columns panel-metric-header escalaton-panel'> Excalation Level: " + v["ESCALATION"] + "</div>"
+        printdata += "</div>"
+
+        $.each(v["VIOLATIONS"], function(k, violation){
+
+            if (violation["CODE"]) {
+                code = String(violation["CODE"]).replace(new RegExp(',', 'g'), "<br />");
+                printdata += "<div class='panel violation-container-panel'>"
+                printdata += "<pre><code class='" + GLOBAL_LANGUAGE + "'>" + code + "</code></pre><br />"
+            }
+
+            if (violation["FILE"]) {
+
+                if (violation["FILE"].constructor === Object) {
+
+                    console.log("Keys in \"Files\":: " + Object.keys(violation["FILE"]))
+
+                    printdata += "<span class='label radius'>Files: </span><br /><code>"
+
+                    $.each(violation["FILE"], function(filename, line){
+                        printdata += filename + " :: " + line + "<br />"
+                    })
+
+                    printdata += "</code><br />"
+                } else {
+                    printdata += "<span class='label radius'>File: </span>"
+                    printdata += "<code>" + violation["FILE"] + "</code><br />"
+                }
+            }
+
+            if (violation["LINE"]) {
+                printdata += "<span class='label radius'>Line: </span>"
+                printdata += "<code>" + violation["LINE"] + "</code><br />"
+            }
+
+            if (violation["INFO"]) {
+                printdata += "<span class='label radius'>Info: </span>"
+                printdata += "<code>" + violation["INFO"] + "</code><br />"
+            }
+
+            printdata += "</div>"
         })
     })
 
     $("#c_result").html(printdata)
+
+    //Syntax Highlighting
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
 }
 
 function prompt_error(MESSAGE, LEVEL) {

@@ -1,7 +1,6 @@
 [BASIC]
-<<<<<<< HEAD
-sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
-language = java
+sourcepath = /home/drieger/Documents/github/sizun/sizun/controllers
+language = py
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 

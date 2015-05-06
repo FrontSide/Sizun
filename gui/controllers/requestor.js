@@ -8,6 +8,7 @@
 HOST = "localhost"
 PORT = "8373"
 
+
 function check_connection() {
     console.log("check connection:")
     try {
@@ -27,8 +28,9 @@ function get_language() {
     console.log("check connection:")
         $.getJSON("http://" + HOST + ":" + PORT + "/language/get", function (data) {
         }).done(function(data) {
+            GLOBAL_LANGUAGE = data["LANGUAGE"]
             hide_error()
-            notice_language(data["LANG"])
+            notice_language(data["LANGUAGE"])
         }).fail(function(data) {
             prompt_error(data.responseJSON["message"], data.responseJSON["type"])
         })
@@ -36,7 +38,8 @@ function get_language() {
 
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
-    $.getJSON("http://" + HOST + ":" + PORT + "/sourcepath/set/" + SOURCEPATH + "'", function (data) {
+
+    $.getJSON("http://" + HOST + ":" + PORT + "/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
         }).done(function() {
             hide_error()
             get_language()
