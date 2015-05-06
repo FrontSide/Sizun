@@ -83,12 +83,11 @@ Request | Description
 ### Core Application
 
 **Working so far:**
-- Complexity Measurement for JAVA
+- Complexity Measurement for JAVA and PYTHON
 - Code Duplication Measurement for JAVA
 - ReST API as listed in doc (above)
 
 **In effective development (Planned for v0.1.0-alpha):**
-- Complexity Measurement for PYTHON
 - Lazy Class Detection for JAVA
 - Large/God Class Detection for JAVA
 - Long Parameter List Detection for JAVA

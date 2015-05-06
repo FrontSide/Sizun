@@ -1,6 +1,6 @@
 [BASIC]
-sourcepath = /home/drieger/Documents/github/evince
-language = in
+sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 

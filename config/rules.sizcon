@@ -1,5 +1,5 @@
 [CC]
-max_complexity = 4
+max_complexity = 1
 
 [CD]
 min_tokens = 30

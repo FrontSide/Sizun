@@ -1,1 +1,11 @@
 # Python Syntax Page for Code Parsing
+[ELEMENTS]
+
+# Lines that represent nodes of flow graphs and thus increase cyclomatic complexity
+FLOWPATH=(if[\s]+.*[\s]?[:])|(elif[\s]+.*[\s]?[:])|(try[\s]*[:])
+
+# Lines that start a new method
+METHOD=(def)[\s]+.*[\(]
+
+# Lines that assign a value to another one
+REFERENCE=[\w]+[\s]+[=][\s]+[\w]+
