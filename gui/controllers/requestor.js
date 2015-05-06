@@ -5,10 +5,13 @@
   * (C) 2015 David Rieger
   */
 
+HOST = "localhost"
+PORT = "8373"
+
 function check_connection() {
     console.log("check connection:")
     try {
-        $.getJSON('http://localhost:5000/', function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/", function (data) {
         }).done(function() {
             hide_error()
             enable_run_btn()
@@ -22,7 +25,7 @@ function check_connection() {
 
 function get_language() {
     console.log("check connection:")
-        $.getJSON('http://localhost:5000/language/get', function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/language/get", function (data) {
         }).done(function(data) {
             hide_error()
             notice_language(data["LANG"])
@@ -33,7 +36,7 @@ function get_language() {
 
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
-    $.getJSON("http://localhost:5000/sourcepath/set/'" + SOURCEPATH + "'", function (data) {
+    $.getJSON("http://" + HOST + ":" + PORT + "/sourcepath/set/" + SOURCEPATH + "'", function (data) {
         }).done(function() {
             hide_error()
             get_language()
@@ -44,7 +47,7 @@ function update_sourcepath(SOURCEPATH) {
 
 function run_inspection() {
     console.log("run inspection...")
-    $.getJSON('http://localhost:5000/run', function (data) {
+    $.getJSON("http://" + HOST + ":" + PORT + "/run", function (data) {
         }).done(function(data) {
             hide_error()
             show_inspection_results(data)

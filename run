@@ -1,5 +1,62 @@
 #!/bin/bash
 
+
+usage() { 
+    echo "Usage: $0 [-s <sourcepath>] [-l <language>] [-r]"; exit 1; 
+}
+
+function chk_optarg_empty() {
+    if [ -z "${OPTARG}" ]; then
+        usage
+    fi
+}
+
+# Check options
+# s -> set sourcepath -> requires argument
+# l -> set language -> requires argument
+# G -> open web-gui
+while getopts ":s:l:rG" opt; do
+    case $opt in
+        s)
+            chk_optarg_empty
+            sourcepath=${OPTARG}
+            if [ -d $sourcepath ]; then  
+                echo "Sourcepath set to: $sourcepath"
+                VALIDSOURCEPATH=true
+            else
+                echo "\"$sourcepath\" does not seem to be a directory!"
+                usage
+            fi
+            ;;
+        l)
+            chk_optarg_empty
+            language=${OPTARG}
+
+            # Language to upper case
+            language=${language^^}
+
+            # Check if language is valid
+            case $language in
+                "JAVA") ;;
+                "PY") ;;
+                "PYTHON") ;;
+                *) 
+                    echo "\"$language\" is not a valid language!"
+                    usage
+            esac            
+
+            echo "Language set to: $language"
+            VALIDLANGUAGE=true
+            ;;
+        r)
+            RUNNOW=true
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
 VENDOR_FOLDER="vendors"
 
 # Switch to directory of this script
@@ -63,24 +120,32 @@ else
     echo "pmd is installed!"
 fi
 
-#echo "install gui..."
-#echo "install 'request'..."
-#PRO="npm"
-#cd gui/controllers
-#eval $PRO install request
-#cd ../..
-#chk
+PORT=8373
+HOST="127.0.0.1"
 
-# echo "try pmd..."
-# PRO="$PATH_TO_PMD_SCRIPT -v"
-# eval $PRO
-# chk
+PID_FILE="./SIZUN.GUNICORN.PID"
 
-echo "start application..."
-PRO="python3"
-eval $PRO ./main.py &
-echo "pid of python is :: $!"
+echo "start application server with gunicorn..."
+PRO="gunicorn"
+eval $PRO main:app -b $HOST:$PORT -p $PID_FILE &
+MAIN_PID=$?
+echo "PID for main.py is $MAIN_PID"
 chk
 
-echo "open gui in default browser..."
-x-www-browser gui/index.html
+sleep 3
+
+if [ "$VALIDLANGUAGE" = true ]; then
+    echo "set language..."
+    wget "http://$HOST:$PORT/language/set/$language"
+fi
+
+if [ "$VALIDSOURCEPATH" = true ]; then
+    echo "set sourceopath..."
+    wget "http://$HOST:$PORT/sourcepath/set/$sourcepath"
+fi
+
+if [ "$RUNNOW" = true ]; then
+    echo "run inspection now..."
+    wget "http://$HOST:$PORT/run"
+fi
+

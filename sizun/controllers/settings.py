@@ -27,7 +27,6 @@ class InspectionSettings:
         self.fh = FileHandler(self)
         self.conf = _config
         self.apppath = os.getcwd()
-        self.CHANGED_SOURCEPATH = True
 
     def reset(self):
         """
@@ -39,38 +38,49 @@ class InspectionSettings:
         ConfigHandler.setall(old=ch_old, new=ch_new)
         return
 
-    """
-    Returns the path where sizun was initially startet from
-    (not stored in config file because mustn't be manually manipulated)
-    """
     def get_apppath(self):
+        """
+        Returns the path where sizun was initially startet from
+        (not stored in config file because mustn't be manually manipulated)
+        """
         return self.apppath
 
-    """
-    Handles the language settings in the main config file
-    """
     def set_language(self, _language):
         self.conf.set(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY, _language)
 
     def get_language(self):
+        _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         try:
             _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         except NotFoundInConfigError:
             _language = None
-
-        if _language is None or self.CHANGED_SOURCEPATH is True:
-            _language = self.fh.detect_language()
-            self.CHANGED_SOURCEPATH = False
+        if _language is None:
+            _language = self._detect_language()
 
         self.set_language(_language)
         return _language
 
+    def _detect_language(self):
+        """
+        Detects the used language
+        by looking for the most common file ending in the root folder of the srcpath tree
+        """
+
+        _file_endings = list()
+        _tree = self.fh.get_tree()
+
+        for k in _tree:
+
+            # Files have None as value, skip directories
+            if _tree[k] is None:
+                _file_endings.append(k.split('.')[-1])
+
+        return max(set(_file_endings), key=_file_endings.count)
+
     def set_sourcepath(self, _sourcepath):
-        """
-        Handles the sourcepath settings in the main config file
-        """
+        if _sourcepath[0] is not '/':
+            _sourcepath = '/' + _sourcepath
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
-        self.notice_sourcepath_changed()
 
     def get_sourcepath(self):
         try:
@@ -80,37 +90,20 @@ class InspectionSettings:
 
         return _sourcepath
 
-    def notice_sourcepath_changed(self):
-        """
-        Set flag that sourcepath has been changed
-        """
-        self.CHANGED_SOURCEPATH = True
-
-    """
-    Handles the target folder settings in the main config file
-    This is the folder where temporary data that is created during
-    execution is stored
-    """
-    def set_targetfolder(self, _targetfolder):
-        self.conf.set(self.BASIC_SECTION_KEY, self.TARGET_KEY, _targetfolder)
-
-    def get_targetfolder(self):
-        try:
-            return self.conf.get(self.BASIC_SECTION_KEY, self.TARGET_KEY)
-        except NotFoundInConfigError:
-            raise InvalidRequestError("No target folder path in config file found")
-
-    """
-    Handels the path to the PMD executable
-    """
     def get_pmdexe(self):
+        """
+        Path to PMD executable
+        """
         try:
             return self.conf.get(self.BASIC_SECTION_KEY, self.PMDEXE_KEY)
         except NotFoundInConfigError:
             raise InvalidRequestError("Failed to find execution path for PMD")
 
-    """
-    Handles whether a metric is enabled/disabled for inspection
-    """
     def isset_inspection(self, _metricname):
         return self.conf.isset(self.INSP_SECTION_KEY, _metricname)
+
+    def activate_inspection(self, _metricname):
+        self.conf.set(self.INSP_SECTION_KEY, _metricname, "true")
+
+    def deactivate_inspection(self, _metricname):
+        self.conf.set(self.INSP_SECTION_KEY, _metricname, "false")

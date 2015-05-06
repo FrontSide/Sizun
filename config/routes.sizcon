@@ -14,3 +14,14 @@ tree=/sourcepath/tree/get
 
 [RUN]
 full=/run
+single=/run/<inspection_key>
+
+[INSPECTION]
+activate=/inspection/activate/<inspection_key>
+deactivate=/inspection/deactivate/<inspection_key>
+isset=/inspection/isset/<inspection_key>
+
+[RULE]
+change=/rule/set/<inspection_key>/<rule_key>/<value>
+get=/rule/get/<inspection_key>/<rule_key>
+reset=/rule/reset/<inspection_key>/<rule_key>

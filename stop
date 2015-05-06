@@ -1,0 +1,4 @@
+#!/bin/bash
+
+PID_FILE="./SIZUN.GUNICORN.PID"
+kill $(cat $PID_FILE)

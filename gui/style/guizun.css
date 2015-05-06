@@ -1,38 +1,26 @@
 body {
-    background-color: #EFEFEF
+    background-color: #EFEFEF;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10%;
 }
 
-.splash-container {
-    width: 50%;
-    min-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+.topbox {
+    background-color: #FFF;
     text-align: center;
-    margin-top:10%;
+    border-radius: 5px;
+}
+
+.alert-box, .error, .radius {
+    border: #222;
+}
+
+.alert-box > p {
     color: #FFF;
-}
-
-.splash-container > .splash {
-    border: 1px solid #FFF;
-    border-radius: 10px;
-    background-color: #F54C0A;
-}
-
-.splash .error {
-    background-color: #222222;
+    font-weight: bold;
+    margin-bottom: 0;
 }
 
 label {
     font-weight: bold;
-}
-
-button.pure-button-primary {
-    background-color: #FFFFFF;
-    width: 150px;
-    color:#555;
-}
-
-.pure-form > fieldset > .pure-control-group > input {
-    color:#222;
-    width:50%;
 }

@@ -33,17 +33,19 @@ function show_inspection_results(result) {
 
 function prompt_error(MESSAGE, LEVEL) {
 
+    console.log("Error occurred: LEVEL:: " + LEVEL + ", MESSAGE:: " + MESSAGE)
+
     $("#c_error").css("display", "block")
 
     switch (LEVEL) {
-        case "error": colour = "#FF0000"; break;
-        case "warning": colour = "#FFFF00"; break;
-        case "success": colour = "#00FF00"; break;
-        default: colour = "#DDD"
+        case "error": level_class = "alert"; break;
+        case "warning": level_class = "warning"; break;
+        case "success": level_class = "success"; break;
+        default: level_class = "info"
     }
 
-    $("#m_error").html(MESSAGE)
-    $("#c_error").css("background-color", colour)
+    $("#c_error > #c_error_text").html(MESSAGE)
+    $("#c_error").addClass(level_class)
 
 }
 
