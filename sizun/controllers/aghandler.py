@@ -21,7 +21,6 @@ class AGHandler():
         self.fh = FileHandler(self.settings)
         self.language = _settings.get_language()
         self.sourcepath = _settings.get_sourcepath()
-        self.targetfolder = _settings.get_targetfolder()
         self.syntax = ConfigHandler("config/syntax/{}.syn".format(self.language))
 
     def source_exe(self, _keyword, file=None):

@@ -42,6 +42,7 @@ r_change_rule = routch.get("RULE", "CHANGE")
 r_get_rule = routch.get("RULE", "GET")
 r_set_language = routch.get("LANGUAGE", "SET")
 r_get_language = routch.get("LANGUAGE", "GET")
+r_run_single = routch.get("RUN", "SINGLE")
 r_run_full = routch.get("RUN", "FULL")
 
 # Routing #
@@ -52,15 +53,28 @@ def home():
     """
     Root/Home Page
     """
-    return "Salute monde..."
+    apidoc = dict()
+    apidoc["set a new sourcepath"] = r_set_srcpath
+    apidoc["receive the currently set sourcepath"] = r_get_srcpath
+    apidoc["manually set the source's language"] = r_set_language
+    apidoc["receive the currently set sourcepath"] = r_get_language
+    apidoc["activate the execution of an inspection"] = r_activate_inspection
+    apidoc["deactivate the execution of an inspection"] = r_deactivate_inspection
+    apidoc["receive the execution status of an inspection"] = r_deactivate_inspection
+    apidoc["change the value for an inspection rule"] = r_change_rule
+    apidoc["reset the value for an inspection rule"] = r_reset_rule
+    apidoc["receive the value currently for an inspection rule"] = r_reset_rule
+    apidoc["run one specific inspections"] = r_run_single
+    apidoc["run all activated inspections"] = r_run_full
+    return jsonify(apidoc)
 
 
-@app.route(r_set_srcpath)
+@app.route('/sourcepath/set/<path:sourcepath>')
 def set_srcpath(sourcepath):
     """
     Set the sourcepath where the inspection is conducted
     """
-    inspsettings.set_sourcepath(sourcepath.strip("'"))
+    inspsettings.set_sourcepath(sourcepath)
     return get_srcpath()
 
 
@@ -144,13 +158,26 @@ def get_rule(inspection_key, rule_key):
         return jsonify(error.to_dict()), error.status_code
 
 
+@app.route(r_run_single)
+def run_single_inspection(inspection_key):
+    """
+    Run one specific inspection and return results as json
+    The "inspection_key" must accord to the key set in the
+    application.sizon config file under the INSPECTION category
+    """
+    try:
+        return jsonify(InspectionRunner(inspsettings, rulehandler).run(specific_inspection=inspection_key))
+    except (ExternalDependencyError, InvalidRequestError) as error:
+        return jsonify(error.to_dict()), error.status_code
+
+
 @app.route(r_run_full)
 def run_full_inspection():
     """
     Run full inspection-suit and return results as json
     """
     try:
-        return jsonify(InspectionRunner(inspsettings).run())
+        return jsonify(InspectionRunner(inspsettings, rulehandler).run())
     except (ExternalDependencyError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
 

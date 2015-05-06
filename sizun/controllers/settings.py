@@ -78,6 +78,8 @@ class InspectionSettings:
         return max(set(_file_endings), key=_file_endings.count)
 
     def set_sourcepath(self, _sourcepath):
+        if _sourcepath[0] is not '/':
+            _sourcepath = '/' + _sourcepath
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
 
     def get_sourcepath(self):

@@ -14,6 +14,7 @@ tree=/sourcepath/tree/get
 
 [RUN]
 full=/run
+single=/run/<inspection_key>
 
 [INSPECTION]
 activate=/inspection/activate/<inspection_key>

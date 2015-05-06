@@ -1,10 +1,10 @@
 [BASIC]
-sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
-language = py
+sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
+language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 
 [INSPECTION]
 cc = true
-cd = false
+cd = true
 

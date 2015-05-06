@@ -64,6 +64,7 @@ Not intended is support for: **Whitespace**
 Request | Description
 ------- | -----------
 `/run`  | Run full code inspection
+`/run/[metricname]`  | Execute inspection for one spectific metric
 `/sourcepath/set/[sourcepath]`  | Set path to application to inspect
 `/sourcepath/get`  | Get path to application to inspect
 `/language/set/[language]`  | Set programming language*
@@ -84,8 +85,7 @@ Request | Description
 **Working so far:**
 - Complexity Measurement for JAVA
 - Code Duplication Measurement for JAVA
-- ReST API command for changing Metric Rules
-- ReST API command for (de)activating Metric Executions
+- ReST API as listed in doc (above)
 
 **In effective development (Planned for v0.1.0-alpha):**
 - Complexity Measurement for PYTHON
