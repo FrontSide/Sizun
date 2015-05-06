@@ -72,9 +72,9 @@ Request | Description
 `/inspection/activate/[metricname]`  | Activate Metric Execution
 `/inspection/deactivate/[metricname]`  | Deactivate Metric Execution
 `/inspection/isset/[metricname]`  | Check if Metric Execution is activated
-`/inspection/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
-`/inspection/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
-`/inspection/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
+`/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
+`/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
+`/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
 *The sourcecode's language is by default automatically detected.
 
 

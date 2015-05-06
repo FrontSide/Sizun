@@ -22,6 +22,6 @@ deactivate=/inspection/deactivate/<inspection_key>
 isset=/inspection/isset/<inspection_key>
 
 [RULE]
-change=/inspection/rule/set/<inspection_key>/<rule_key>/<value>
-get=/inspection/rule/get/<inspection_key>/<rule_key>
-reset=/inspection/rule/reset/<inspection_key>/<rule_key>
+change=/rule/set/<inspection_key>/<rule_key>/<value>
+get=/rule/get/<inspection_key>/<rule_key>
+reset=/rule/reset/<inspection_key>/<rule_key>
