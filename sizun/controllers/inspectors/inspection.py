@@ -18,29 +18,43 @@ from flask import current_app as app
 
 class InspectionRunner:
 
-    def __init__(self, _settings):
+    inspection_set = ["CC", "CD"]
+
+    def __init__(self, _settings, _rulehandler):
         self.settings = _settings
         self.ag = AGHandler(self.settings)
         self.syntaxhandler = SyntaxHandler(self.settings)
-        self.rulehandler = RuleHandler(self.settings)
+        self.rulehandler = _rulehandler
         self.pmd = PMDHandler(self.settings)
         self.linegrabber = LineGrabber(self.settings)
 
-    """
-    Run the full inspection suite
-    """
-    def run(self):
-
+    def run(self, specific_inspection=None):
+        """
+        Run the full inspection suite
+        """
         result = dict()
+        stat = dict()
 
-        # Start only inspections that are enabled in config file
+        # Get the activation status of all inspection suits OR
+        # deactivate all inspections except the one set in specific_inspection, respectively
+        if specific_inspection is None:
+            for insp in self.inspection_set:
+                stat[insp] = self.settings.isset_inspection(insp)
+        else:
+            for insp in self.inspection_set:
+                if specific_inspection.upper() == insp:
+                    stat[insp] = True
+                else:
+                    stat[insp] = False
+
+        # Run activated inspections
         # Cyclomatic Complexity
-        if self.settings.isset_inspection("CC"):
+        if stat["CC"]:
             from .circular_complexity import CCInspector
             result["CC"] = CCInspector(self.ag, self.syntaxhandler, self.rulehandler).run()
 
         # Code Duplication
-        if self.settings.isset_inspection("CD"):
+        if stat["CD"]:
             from .code_duplication import CDInspector
             result["CD"] = CDInspector(self.pmd, self.rulehandler, self.linegrabber).run()
 

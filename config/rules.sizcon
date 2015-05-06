@@ -1,4 +1,6 @@
 [CC]
-MAX_COMPLEXITY=4
+max_complexity = 4
+
 [CD]
-MIN_TOKENS=30
+min_tokens = 30
+

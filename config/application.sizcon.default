@@ -1,5 +1,6 @@
 [BASIC]
 sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 

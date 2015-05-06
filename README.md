@@ -11,15 +11,17 @@ Download the latest working release (atm. there's just the master branch, though
 
 ## Requirements
 
-- python3
-- pip3
+- python3.4+ with pip
 - [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+- [Gunicorn](http://gunicorn.org/)
 
 Sizun is also using [PMD](http://pmd.sourceforge.net/pmd-5.2.3/) with CPD in version **5.2.3**.
 This is, however, downloaded automatically during the first run.<br />
 <sub>(Version 5.3.x of PMD would be available but CPD fails in creating a CSV output which makes the software a little useless for Sizun)</sub>
 
-## Usage
+Right now you also might have to install some python modules manually with pip since this might request root permission. **Alternatively** you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
+
+## Usage (Temporary Solution)
 ### 1. Run with:
 
     ./run
@@ -62,11 +64,17 @@ Not intended is support for: **Whitespace**
 Request | Description
 ------- | -----------
 `/run`  | Run full code inspection
+`/run/[metricname]`  | Execute inspection for one spectific metric
 `/sourcepath/set/[sourcepath]`  | Set path to application to inspect
+`/sourcepath/get`  | Get path to application to inspect
 `/language/set/[language]`  | Set programming language*
-TBA  | Activate Metric Execution
-TBA  | Deactivate Metric Execution
-TBA  | Change rule for Inspection Metric
+`/language/get`  | Get programming language*
+`/inspection/activate/[metricname]`  | Activate Metric Execution
+`/inspection/deactivate/[metricname]`  | Deactivate Metric Execution
+`/inspection/isset/[metricname]`  | Check if Metric Execution is activated
+`/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
+`/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
+`/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
 *The sourcecode's language is by default automatically detected.
 
 
@@ -77,14 +85,14 @@ TBA  | Change rule for Inspection Metric
 **Working so far:**
 - Complexity Measurement for JAVA
 - Code Duplication Measurement for JAVA
+- ReST API as listed in doc (above)
 
 **In effective development (Planned for v0.1.0-alpha):**
 - Complexity Measurement for PYTHON
 - Lazy Class Detection for JAVA
 - Large/God Class Detection for JAVA
 - Long Parameter List Detection for JAVA
-- ReST API command for changing Metric Rules
-- ReST API command for (de)activating Metric Executions
+- CLI for running inspections and simple configurations (so that nobody needs to tinker about in the config file)
 
 The development of Sizun has only started in mid-march 2015.
 A first useable prototype should be available by mid-may!
@@ -93,4 +101,4 @@ Planned release date vor **v0.1.0-alpha** is the **28. May 2015**<br />
 Current: **v0.1-dev** (initial rapid development)
 
 ### In-Browser GUI
-Currently not in development, but definitely planned. Should be easy to implement due to the ReST-API and the JSON responses.
+Development in branch: [gui-1](https://github.com/FrontSide/Sizun/tree/gui-1)

@@ -31,6 +31,8 @@ node_modules/
 include/
 gui/foundation-*
 gui/foundation/
+.idea/
+local/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
