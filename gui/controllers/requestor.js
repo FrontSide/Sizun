@@ -44,17 +44,27 @@ function update_sourcepath(SOURCEPATH) {
             hide_error()
             get_language()
         }).fail(function() {
-            prompt_error("failed to update sourcepath", "warning")
+            check_for_error(data)
         })
 }
 
 function run_inspection() {
     console.log("run inspection...")
+    open_progress_modal()
     $.getJSON("http://" + HOST + ":" + PORT + "/run", function (data) {
         }).done(function(data) {
             hide_error()
             show_inspection_results(data)
         }).fail(function(data) {
-            notice_noconnect()
+            check_for_error(data)
         })
+}
+
+function check_for_error(serverresponse) {
+    resp = serverresponse.responseJSON
+    if (resp != null && resp.constructor == Object && resp["type"] != null) {
+        prompt_error(resp["message"], resp["type"])
+    } else {
+        notice_noconnect()
+    }
 }

@@ -22,16 +22,35 @@ function show_inspection_results(result) {
     printdata = ""
     $.each(result, function(k, v){
 
-        printdata += "<div class='row'>"
-        printdata += "<div class='large-5 columns panel-metric-header metricname-panel'>" + k + "</div>"
-        printdata += "<div class='large-5 columns panel-metric-header escalaton-panel'> Excalation Level: " + v["ESCALATION"] + "</div>"
+        switch (parseInt(v["ESCALATION"])) {
+            case 1: esc_level = "success"; break;
+            case 2: esc_level = "secondary"; break;
+            case 3: esc_level = "secondary"; break;
+            case 4: esc_level = "alert"; break;
+            default: esc_level = "secondary";
+        }
+
+        printdata += "<hr /><div class='panel violation-container-panel violation-container-category-panel  fit-to-content-container'>"
+        printdata += "<div class='large-8 columns'><b>" + inspection_names[k] + "</b></div>"
+        printdata += "<div class='large-4 columns align-right'>"
+        printdata += "<label class='" + esc_level + " radius label'>Escalation Level: " + v["ESCALATION"] + "</label></div>"
         printdata += "</div>"
+
+        var vio_counter = 0
+        var num_violations = v["VIOLATIONS"].length % 2 == 0 ? v["VIOLATIONS"].length : (v["VIOLATIONS"].length + 1)
+
+        printdata += "<div class='large-6 columns'>"
 
         $.each(v["VIOLATIONS"], function(k, violation){
 
+            if ((vio_counter++ != 0) && (vio_counter == (num_violations / 2) + 1)) {
+                printdata += "</div><div class='large-6 columns'>"
+            }
+
+            printdata += "<div class='panel violation-container-panel'>"
+
             if (violation["CODE"]) {
                 code = String(violation["CODE"]).replace(new RegExp(',', 'g'), "<br />");
-                printdata += "<div class='panel violation-container-panel'>"
                 printdata += "<pre><code class='" + GLOBAL_LANGUAGE + "'>" + code + "</code></pre><br />"
             }
 
@@ -64,8 +83,11 @@ function show_inspection_results(result) {
                 printdata += "<code>" + violation["INFO"] + "</code><br />"
             }
 
+
             printdata += "</div>"
+
         })
+        printdata += "</div>" //Closes the row for this pair of violations
     })
 
     $("#c_result").html(printdata)
@@ -74,6 +96,8 @@ function show_inspection_results(result) {
     $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
     });
+
+    close_progress_modal()
 
 }
 
@@ -91,8 +115,16 @@ function prompt_error(MESSAGE, LEVEL) {
     }
 
     $("#c_error > #c_error_text").html(MESSAGE)
-    $("#c_error").addClass(level_class)
+    $("#c_error").attr("class", "alert-box " + level_class + " radius")
 
+}
+
+function open_progress_modal() {
+    $('#m_insp_prog').foundation('reveal', 'open');
+}
+
+function close_progress_modal() {
+    $('#m_insp_prog').foundation('reveal', 'close');
 }
 
 function hide_error() {
