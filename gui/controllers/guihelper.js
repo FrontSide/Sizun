@@ -37,14 +37,15 @@ function show_inspection_results(result) {
         printdata += "</div>"
 
         var vio_counter = 0
-        var num_violations = v["VIOLATIONS"].length % 2 == 0 ? v["VIOLATIONS"].length : (v["VIOLATIONS"].length + 1)
+        var modulo_result = v["VIOLATIONS"].length % SPLIT_VIOLATIONS_BY
+        var num_violations = modulo_result == 0 ? v["VIOLATIONS"].length : (v["VIOLATIONS"].length + SPLIT_VIOLATIONS_BY - modulo_result)
 
-        printdata += "<div class='large-6 columns'>"
+        printdata += "<div class='large-4 columns'>"
 
         $.each(v["VIOLATIONS"], function(k, violation){
 
-            if ((vio_counter++ != 0) && (vio_counter == (num_violations / 2) + 1)) {
-                printdata += "</div><div class='large-6 columns'>"
+            if ((vio_counter++ != 0) && ((vio_counter % ((num_violations / 3) + 1)  == 0))) {
+                printdata += "</div><div class='large-4 columns'>"
             }
 
             printdata += "<div class='panel violation-container-panel'>"

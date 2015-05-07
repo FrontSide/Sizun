@@ -12,6 +12,8 @@ var inspection_names = new Array();
 inspection_names["CC"] = "Cyclomatic complexity"
 inspection_names["CD"] = "Code Duplications"
 
+//Number of violation boxes in one row (for full display size)
+var SPLIT_VIOLATIONS_BY = 3
 
 $(document).foundation();
 
