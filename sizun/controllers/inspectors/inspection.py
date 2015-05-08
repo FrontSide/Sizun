@@ -18,7 +18,7 @@ from flask import current_app as app
 
 class InspectionRunner:
 
-    inspection_set = ["CC", "CD"]
+    inspection_set = ["CC", "CD", "FE"]
 
     def __init__(self, _settings, _rulehandler):
         self.settings = _settings
@@ -57,6 +57,11 @@ class InspectionRunner:
         if stat["CD"]:
             from .code_duplication import CDInspector
             result["CD"] = CDInspector(self.pmd, self.rulehandler, self.linegrabber).run()
+
+        # Code Duplication
+        if stat["FE"]:
+            from .feature_envy import FEInspector
+            result["FE"] = FEInspector(self.ag, self.syntaxhandler, self.rulehandler).run()
 
         return result
 

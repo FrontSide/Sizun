@@ -39,3 +39,10 @@ class SyntaxHandler:
         in the specified language's sourcecode
         """
         return self.confighandler.get(self.ELEMENTS_SECTION, "METHOD")
+
+    def get_foreign_reference_regex(self):
+        """
+        Returns the regex by which foreign references can be dedected
+        in the specified language's sourcecode
+        """
+        return self.confighandler.get(self.ELEMENTS_SECTION, "FOREIGN_REFERENCE")

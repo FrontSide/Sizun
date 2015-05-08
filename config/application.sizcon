@@ -7,4 +7,5 @@ pmdexe = vendors/pmd/bin/run.sh
 [INSPECTION]
 cc = true
 cd = true
+fe = true
 
