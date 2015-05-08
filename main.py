@@ -74,7 +74,7 @@ def set_srcpath(sourcepath):
     """
     Set the sourcepath where the inspection is conducted
     """
-    inspsettings.set_sourcepath(sourcepath)
+    inspsettings.set_sourcepath(sourcepath.strip("'"))
     return get_srcpath()
 
 

@@ -22,7 +22,7 @@ class FileHandler:
         self.settings = _settings
 
     def get_tree(self):
-        _srcpath = self.settings.get_sourcepath()
+        _srcpath = self.settings.get_sourcepath(update_language=False)
         try:
             self.tree = self.fetch_tree(_srcpath)
         except FileNotFoundError:

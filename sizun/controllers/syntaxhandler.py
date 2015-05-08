@@ -5,6 +5,7 @@ MIT License
 (C) 2015 David Rieger
 """
 
+from flask import current_app as app
 from .confighandler import ConfigHandler
 
 

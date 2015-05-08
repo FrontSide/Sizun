@@ -48,16 +48,17 @@ class InspectionSettings:
     def set_language(self, _language):
         self.conf.set(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY, _language)
 
-    def get_language(self):
-        _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
+    def get_language(self, enforce_detection=False):
+
         try:
             _language = self.conf.get(self.BASIC_SECTION_KEY, self.LANGUAGE_KEY)
         except NotFoundInConfigError:
             _language = None
-        if _language is None:
-            _language = self._detect_language()
 
-        self.set_language(_language)
+        if enforce_detection or _language is None:
+            _language = self._detect_language()
+            self.set_language(_language)
+
         return _language
 
     def _detect_language(self):
@@ -82,9 +83,12 @@ class InspectionSettings:
             _sourcepath = '/' + _sourcepath
         self.conf.set(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY, _sourcepath)
 
-    def get_sourcepath(self):
+    def get_sourcepath(self, update_language=True):
         try:
-            return self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
+            _sorucepath = self.conf.get(self.BASIC_SECTION_KEY, self.SOURCEPATH_KEY)
+            if update_language:
+                self.get_language(enforce_detection=True)
+            return _sorucepath
         except NotFoundInConfigError:
             raise InvalidRequestError("No source path in config file found")
 
