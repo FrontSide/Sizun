@@ -21,26 +21,17 @@ This is, however, downloaded automatically during the first run.<br />
 
 Right now you also might have to install some python modules manually with pip since this might request root permission. **Alternatively** you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
 
-## Usage (Temporary Solution)
-### 1. Run with:
+## Usage
+### Run with:
 
-    ./run
+    ./run [-s <sourcepath>] [-l <language>] ([-r]|[-G])
 
-### 2. Open the config file:
+Whereas **-r** runs the inspection automatically after start and **-G** opens the in-browser GUI.<br>
+The language parameter **-l** should only be used if the automatic detection fails.
 
-    config/application.sizun
+#### Example:
 
-### 3. Change the sourcepath to the one of your application to be inspected:
-
-    [BASIC]
-    sourcepath = /path/to/my/projects/src
-
-### 4. Send and HTTP GET Request to:
-
-    localhost:5000/run
-
-
-#### from your browser or from wherever you want.
+    ./run -s /home/mrman/superapp/src -r
 
 #####That's it! Your code is now being inspected. You receive the results as a JSON response.
 
@@ -65,17 +56,27 @@ Request | Description
 ------- | -----------
 `/run`  | Run full code inspection
 `/run/[metricname]`  | Execute inspection for one spectific metric
-`/sourcepath/set/[sourcepath]`  | Set path to application to inspect
+`/sourcepath/set/[sourcepath]`  | Set path to application to inspect*
 `/sourcepath/get`  | Get path to application to inspect
-`/language/set/[language]`  | Set programming language*
-`/language/get`  | Get programming language*
+`/language/set/[language]`  | Set programming language**
+`/language/get`  | Get programming language**
 `/inspection/activate/[metricname]`  | Activate Metric Execution
 `/inspection/deactivate/[metricname]`  | Deactivate Metric Execution
 `/inspection/isset/[metricname]`  | Check if Metric Execution is activated
 `/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
 `/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
 `/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
-*The sourcecode's language is by default automatically detected.
+
+####*Omit the leading '/' when setting the sourcepath
+**The sourcecode's language is by default automatically detected.
+
+### Send API calls to:
+
+    localhost:8373
+
+#### Example:
+
+    curl localhost:8373/run
 
 
 ## Development

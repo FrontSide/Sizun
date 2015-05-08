@@ -15,9 +15,22 @@ from sizun.errorhandlers.concrete_error import InvalidRequestError,\
 from sizun.controllers.confighandler import ConfigHandler
 from sizun.controllers.settings import InspectionSettings
 from sizun.controllers.inspectors.inspection import InspectionRunner
+import logging
 
-# Main Application and Routing
+# Main Application
 app = Flask(__name__)
+
+# Log to file
+
+app.logger.debug("START")
+
+log_fh = logging.FileHandler("/home/drieger/Documents/github/sizun/main.log")
+log_fh.setLevel(logging.DEBUG)
+app.logger.addHandler(log_fh)
+
+app.logger.debug("OK")
+
+# Configs
 routch = ConfigHandler('config/routes.sizcon')
 mainch = ConfigHandler('config/application.sizcon')
 rulech = ConfigHandler('config/rules.sizcon')

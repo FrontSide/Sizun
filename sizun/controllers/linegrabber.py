@@ -28,6 +28,8 @@ class LineGrabber:
     def get_lines(self, filepath, start_line, end_line=None, absolute_path=False):
 
         if not absolute_path:
+            # Check if filepath contains sourcepath and remove if so
+            filepath = filepath.replace(self.sourcepath, "")
             full_path = self.sourcepath + "/" + filepath
         else:
             full_path = filepath
