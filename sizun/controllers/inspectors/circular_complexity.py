@@ -11,7 +11,7 @@ from .inspection import InspectionABC
 from sizun.controllers.aghandler import AGResultHelper
 
 
-class CCInspector(InspectionABC):
+class FEInspector(InspectionABC):
 
     def __init__(self, aghandler, syntaxhandler, rulehandler):
         self.ag = aghandler

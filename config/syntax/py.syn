@@ -8,4 +8,5 @@ FLOWPATH=(if[\s]+.*[\s]?[:])|(elif[\s]+.*[\s]?[:])|(try[\s]*[:])
 METHOD=(def)[\s]+.*[\(]
 
 # Lines that assign a value to another one
+DECLARATION=[\w]+[\s]+[=][\s]+[\w]+
 REFERENCE=[\w]+[\s]+[=][\s]+[\w]+

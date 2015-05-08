@@ -2,10 +2,10 @@
 [ELEMENTS]
 
 # Lines that represent nodes of flow graphs and thus increase cyclomatic complexity
-FLOWPATH=((else[\s])?if[\s]*[\(])|(try[\s]+[{])|(case[\s]*.*[:])
+FLOWPATH=((else[\s])?(if[\s]*[\(]))|(case[\s]*.*[:])
 
 # Lines that start a new method
-METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]
+METHOD=(\w)*[\s]+[\w]+[\s]*[\(]
 
 # Lines that assign a value to another one
 DECLATATION=[\w]+[\s]+[\w]+[\s]+[=][\s]+[\w]+
