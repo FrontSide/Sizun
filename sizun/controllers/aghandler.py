@@ -97,10 +97,10 @@ class AGResultHelper:
 
         example usage:
         a section_start could be defined by the start of a method
-        All lines that are within the start of a method and the start of the next method
+        All lines (as given in the 'lines varialbe')
+        that are within the start of a method and the start of the next method
         are the values of this key (which is again the section start)
         """
-        app.logger.debug("get_lines_witin_sections called with lines :: {} and section starts :: {}".format(lines, section_starts))
         _lwa = dict()
         for sec in section_starts:
             try:
@@ -111,6 +111,19 @@ class AGResultHelper:
             _lwa[sec] = lines_within
         app.logger.debug("get_lines_witin_sections returns :: {}".format(_lwa))
         return _lwa
+
+    def get_length_of_sections(section_starts):
+        """
+        Returns a dict with all section-start-linen-umbers as keys
+        and the number of lines until the next section start as value
+        """
+        _los = dict()
+        for sec in section_starts:
+            try:
+                _los[sec] = section_starts[section_starts.index(sec)+1] - sec
+            except IndexError:
+                _los[sec] = 777777  # TODO: Should be [length of file] - sec
+        return _los
 
     def get_code(full_dict, filename, line_nr):
         """

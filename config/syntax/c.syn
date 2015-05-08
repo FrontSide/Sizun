@@ -8,5 +8,5 @@ FLOWPATH=((else[\s])?(if[\s]*[\(]))|(case[\s]*.*[:])
 METHOD=(\w)*[\s]+[\w]+[\s]*[\(]
 
 # Lines that assign a value to another one
-DECLATATION=[\w]+[\s]+[\w]+[\s]+[=][\s]+[\w]+
+DEFINITION=[\w]+[\s]+[\w]+[\s]+[=][\s]+[\w]+
 REFERENCE=[\w]+[\s]+[=][\s]+[\w]+

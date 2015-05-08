@@ -18,7 +18,7 @@ class FEInspector(InspectionABC):
         self.INSPECTION = "FE"
         self.syntax = syntaxhandler
         self.rule = rulehandler
-        self.MAX_FOREIGN_REFERENCES = int(self.rule.get_value(self.INSPECTION, "MAX_FOREIGN_REFERENCES"))
+        self.MAX_FOREIGN_REFERENCES_PERCENTAGE = int(self.rule.get_value(self.INSPECTION, "MAX_FOREIGN_REFERENCES_PERCENTAGE"))
 
     def inspect(self):
         super().inspect()
@@ -38,14 +38,18 @@ class FEInspector(InspectionABC):
             _l_frefs = _all_frefs[_file]
             _l_meths = AGResultHelper.get_line_numbers(_all_methods, _file)
 
-            app.logger.debug("file:: {} hat paths starting in:: {}".format(_file, _l_frefs))
+            _method_locs = AGResultHelper.get_length_of_sections(_l_meths)
 
             _frefs_in_methods = AGResultHelper.get_lines_witin_sections(_l_frefs, _l_meths)
             _fref_counter[_file] = {k: len(v) for (k, v) in _frefs_in_methods.items()}
 
             for _method_start_line, _num_frefs in _fref_counter[_file].items():
-                if _num_frefs > self.MAX_FOREIGN_REFERENCES:
-                    _note = "{} foreign references".format(_num_frefs)
+
+                OVERHUNG_LINES = 4  # Approximate number of lines between method end and next method start
+                frefs_percentage = _num_frefs / (_method_locs[_method_start_line] - OVERHUNG_LINES)
+
+                if frefs_percentage > self.MAX_FOREIGN_REFERENCES_PERCENTAGE/100:
+                    _note = "{} foreign references within {} lines".format(_num_frefs, _method_locs[_method_start_line])
                     _code = AGResultHelper.get_code(_all_methods, _file, _method_start_line)
                     self.note_violation(_file, _method_start_line, _code, _note)
                     self.escalate()
