@@ -10,3 +10,4 @@ METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]
 # Lines that assign a value to another one
 DECLATATION=[\w]+[\s]+[\w]+[\s]+[=][\s]+[\w]+
 REFERENCE=[\w]+[\s]+[=][\s]+[\w]+
+FOREIGN_REFERENCE=[\w]+[.][\w]+

@@ -4,3 +4,5 @@ max_complexity = 1
 [CD]
 min_tokens = 30
 
+[FE]
+max_foreign_references = 1

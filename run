@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-usage() { 
-    echo "Usage: $0 [-s <sourcepath>] [-l <language>] [-r] [-G]"; exit 1; 
+usage() {
+    echo "Usage: $0 [-s <sourcepath>] [-l <language>] [-r] [-G]"; exit 1;
 }
 
 function chk_optarg_empty() {
@@ -20,7 +20,7 @@ while getopts ":s:l:rG" opt; do
         s)
             chk_optarg_empty
             sourcepath=${OPTARG}
-            if [ -d $sourcepath ]; then  
+            if [ -d $sourcepath ]; then
                 echo "Sourcepath set to: $sourcepath"
                 VALIDSOURCEPATH=true
             else
@@ -40,10 +40,10 @@ while getopts ":s:l:rG" opt; do
                 "JAVA") ;;
                 "PY") ;;
                 "PYTHON") ;;
-                *) 
+                *)
                     echo "\"$language\" is not a valid language!"
                     usage
-            esac            
+            esac
 
             echo "Language set to: $language"
             VALIDLANGUAGE=true
@@ -115,9 +115,15 @@ function install_pmd() {
 
 }
 
+echo "activate python virtual environment..."
+source ./bin/activate
+
+PIP_PATH="./bin/pip3"
+PYTHON_PATH="./bin/python3"
+
 echo "install python tools..."
-PRO="pip3"
-eval $PRO install -r ./requirements.txt
+PRO=$PIP_PATH
+($PRO install -r ./requirements.txt)
 chk
 
 echo "check pmd installation ($PATH_TO_PMD_SCRIPT)..."
@@ -136,7 +142,7 @@ PID_FILE="./SIZUN.GUNICORN.PID"
 
 echo "start application server with gunicorn..."
 PRO="gunicorn"
-eval $PRO main:app -b $HOST:$PORT -p $PID_FILE &
+($PRO main:app -b $HOST:$PORT -p $PID_FILE -R --log-syslog &)
 MAIN_PID=$?
 echo "PID for main.py is $MAIN_PID"
 chk
@@ -145,17 +151,20 @@ sleep 3
 
 if [ "$VALIDLANGUAGE" = true ]; then
     echo "set language..."
-    wget "http://$HOST:$PORT/language/set/$language"
+    curl "http://$HOST:$PORT/language/set/$language"
 fi
 
 if [ "$VALIDSOURCEPATH" = true ]; then
-    echo "set sourceopath..."
-    wget "http://$HOST:$PORT/sourcepath/set/$sourcepath"
+    echo "set sourcepath..."
+    sourcepath=$(echo $sourcepath | sed 's/[/]*//') # Remove leading '/'
+    curl "http://$HOST:$PORT/sourcepath/set/$sourcepath"
 fi
+
+sleep 2
 
 if [ "$RUNNOW" = true ]; then
     echo "run inspection now..."
-    wget "http://$HOST:$PORT/run"
+    curl "http://$HOST:$PORT/run"
 fi
 
 if [ "$OPENGUI" = true ]; then

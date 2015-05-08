@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = /home/drieger/Documents/github/Arignee/app/controllers
+sourcepath = /home/drieger/Documents/github/Arignee/app/controllers/
 language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
@@ -7,4 +7,5 @@ pmdexe = vendors/pmd/bin/run.sh
 [INSPECTION]
 cc = true
 cd = true
+fe = true
 

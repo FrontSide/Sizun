@@ -34,6 +34,7 @@ gui/foundation/
 .idea/
 local/
 SIZUN.GUNICORN.PID
+main.log
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
