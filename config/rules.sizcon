@@ -1,8 +1,12 @@
 [CC]
-max_complexity = 4
+max_complexity = 1
 
 [CD]
-min_tokens = 30
+min_tokens = 10
 
 [FE]
 max_foreign_references = 1
+
+[cc]
+max_complexity = 1
+
