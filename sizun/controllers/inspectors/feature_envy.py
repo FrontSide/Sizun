@@ -45,11 +45,16 @@ class FEInspector(InspectionABC):
 
             for _method_start_line, _num_frefs in _fref_counter[_file].items():
 
-                OVERHUNG_LINES = 4  # Approximate number of lines between method end and next method start
-                frefs_percentage = _num_frefs / (_method_locs[_method_start_line] - OVERHUNG_LINES)
+                # Number of lines in a detected method that are useless in this context
+                # e.g. method declaration and space between end of method and next method
+                OVERHUNG_LINES = 3
+                
+                frefs_percentage = 100 * _num_frefs / (_method_locs[_method_start_line] - OVERHUNG_LINES + 1)
 
-                if frefs_percentage > self.MAX_FOREIGN_REFERENCES_PERCENTAGE/100:
-                    _note = "{} foreign references within {} lines".format(_num_frefs, _method_locs[_method_start_line])
+                if frefs_percentage > self.MAX_FOREIGN_REFERENCES_PERCENTAGE:
+                    _note = "{} foreign references within {} lines i.e. {}%".format(_num_frefs, 
+                                                                            _method_locs[_method_start_line], 
+                                                                            frefs_percentage)
                     _code = AGResultHelper.get_code(_all_methods, _file, _method_start_line)
                     self.note_violation(_file, _method_start_line, _code, _note)
                     self.escalate()
