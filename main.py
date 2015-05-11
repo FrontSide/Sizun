@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 app.logger.debug("START")
 
-log_fh = logging.FileHandler("/home/drieger/Documents/github/sizun/main.log")
+log_fh = logging.FileHandler("main.log")
 log_fh.setLevel(logging.DEBUG)
 app.logger.addHandler(log_fh)
 
