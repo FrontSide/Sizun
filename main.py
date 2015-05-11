@@ -53,6 +53,7 @@ r_isset_inspection = routch.get("INSPECTION", "ISSET")
 r_reset_rule = routch.get("RULE", "RESET")
 r_change_rule = routch.get("RULE", "CHANGE")
 r_get_rule = routch.get("RULE", "GET")
+r_get_all_rules = routch.get("RULE", "ALL")
 r_set_language = routch.get("LANGUAGE", "SET")
 r_get_language = routch.get("LANGUAGE", "GET")
 r_run_single = routch.get("RUN", "SINGLE")
@@ -167,6 +168,14 @@ def reset_rule(inspection_key, rule_key):
 def get_rule(inspection_key, rule_key):
     try:
         return jsonify({"RULE": {inspection_key: {rule_key: rulehandler.get_value(inspection_key, rule_key)}}})
+    except (InvalidRequestError) as error:
+        return jsonify(error.to_dict()), error.status_code
+
+
+@app.route(r_get_all_rules)
+def get_all_rules():
+    try:
+        return jsonify(rulehandler.get_all_rules())
     except (InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
 

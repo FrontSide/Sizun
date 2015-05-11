@@ -27,3 +27,6 @@ class RuleHandler:
     def reset_value(self, inspection_type, rulename):
         default_value = self.defaults.get(inspection_type, rulename)
         self.set_value(inspection_type, rulename, default_value)
+
+    def get_all_rules(self):
+        return self.confighandler.getall()

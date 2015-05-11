@@ -147,22 +147,21 @@ MAIN_PID=$?
 echo "PID for main.py is $MAIN_PID"
 chk
 
-sleep 3
-
 if [ "$VALIDLANGUAGE" = true ]; then
+    sleep 2
     echo "set language..."
     curl "http://$HOST:$PORT/language/set/$language"
 fi
 
 if [ "$VALIDSOURCEPATH" = true ]; then
+    sleep 2
     echo "set sourcepath..."
     sourcepath=$(echo $sourcepath | sed 's/[/]*//') # Remove leading '/'
     curl "http://$HOST:$PORT/sourcepath/set/$sourcepath"
 fi
 
-sleep 2
-
 if [ "$RUNNOW" = true ]; then
+    sleep 2
     echo "run inspection now..."
     curl "http://$HOST:$PORT/run"
 fi

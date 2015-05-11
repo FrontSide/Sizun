@@ -6,6 +6,7 @@ MIT License
 """
 import configparser
 from sizun.errorhandlers.concrete_error import NotFoundInConfigError
+from flask import current_app as app
 
 
 class ConfigHandler:
@@ -67,3 +68,17 @@ class ConfigHandler:
         with open(old.path, 'w') as configfile:
             # Write setting from new file/confighandler into old confighandler/file
             new.config.write(configfile)
+
+    def getall(self):
+        """
+        Returns a list of all section with its subsections and their values as nested dict
+        """
+        with open(self.path, 'r') as configfile:
+            self.config.read_file(configfile)
+
+        res = dict()
+        for section in self.config.sections():
+            res[section] = dict()
+            for rule, val in self.config[section].items():
+                res[section][rule] = val
+        return res

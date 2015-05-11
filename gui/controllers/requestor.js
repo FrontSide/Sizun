@@ -36,6 +36,27 @@ function get_language() {
         })
 }
 
+function get_all_rulesettings() {
+    console.log("get_all_rulesettings...")
+    $.getJSON("http://" + HOST + ":" + PORT + "/rule/all", function (data) {
+    }).done(function(data) {
+        hide_error()
+        show_settings(data)
+    }).fail(function(data) {
+        prompt_error(data.responseJSON["message"], data.responseJSON["type"])
+    })
+}
+
+function update_rule(metric, rule, value) {
+    console.log("update_rule...")
+    $.getJSON("http://" + HOST + ":" + PORT + "/rule/change/" + metric + "/" + rule + "/" + value, function (data) {
+    }).done(function(data) {
+        hide_error()
+    }).fail(function(data) {
+        prompt_error(data.responseJSON["message"], data.responseJSON["type"])
+    })
+}
+
 function update_sourcepath(SOURCEPATH) {
     console.log("update sourcepath...")
 
