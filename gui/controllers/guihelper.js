@@ -102,6 +102,40 @@ function show_inspection_results(result) {
 
 }
 
+function show_settings(orig) {
+
+    console.log("rendering settings...")
+
+    printdata = ""
+
+    $.each(orig, function(metric, rule){
+        printdata += "<span class='label radius'>" + metric + "</span>"
+        $.each(rule, function(name, value){
+            slider_id = metric + name + "S"
+            display_selector = metric + name
+            printdata += "<span class='label radius warning'>" + name + "</span>"
+            printdata += "<div class='row'>"
+            printdata += "<div class='small-4 columns'>"
+            printdata += "<div id='" + slider_id + "' class='range-slider' data-slider data-options=\"display_selector: #" + display_selector + "; initial: " + value + ";\">"
+            printdata += "<span class='range-slider-handle' role='slider' tabindex='0'></span>"
+            printdata += "<span class='range-slider-active-segment'></span></div></div>"
+            printdata += "<div class='small-2 columns'>"
+            printdata += "<input type='number' id='" + display_selector + "' value=" + value + " /></div></div>"
+        })
+    })
+
+    $("#a_settings").html(printdata)
+
+    /* Set Values for Sliders */
+    $.each(orig, function(metric, rule){
+        $.each(rule, function(name, value){
+            slider_id = metric + name + "S"
+            display_selector = metric + name
+            $("#" + slider_id).foundation('slider', 'set_value', value);
+        })
+    })
+}
+
 function prompt_error(MESSAGE, LEVEL) {
 
     console.log("Error occurred: LEVEL:: " + LEVEL + ", MESSAGE:: " + MESSAGE)

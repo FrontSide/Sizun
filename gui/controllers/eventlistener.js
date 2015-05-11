@@ -19,3 +19,14 @@
       /* from http_req.js */
       run_inspection();
   });
+
+  $("#b_settings").click(function(){
+      console.log("b_settings TRIGGERED");
+      get_all_rulesettings()
+  })
+
+  $('[data-slider]').on('change.fndtn.slider', function(){
+      console.log("slider TRIGGERED");
+      prompt_error($(this).attr('data-slider'), "error")
+
+  });
