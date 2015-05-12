@@ -120,7 +120,8 @@ function show_settings(orig) {
             printdata += "<span class='range-slider-handle' role='slider' tabindex='0'></span>"
             printdata += "<span class='range-slider-active-segment'></span></div></div>"
             printdata += "<div class='small-2 columns'>"
-            printdata += "<input type='number' id='" + display_selector + "' value=" + value + " /></div></div>"
+            printdata += "<input type='number' id='" + display_selector + "' value=" + value + " />"
+            printdata += "</div></div>"
         })
     })
 
@@ -131,9 +132,12 @@ function show_settings(orig) {
         $.each(rule, function(name, value){
             slider_id = metric + name + "S"
             display_selector = metric + name
-            $("#" + slider_id).foundation('slider', 'set_value', value);
+            // $("#" + slider_id).foundation('slider', 'set_value', value);
         })
     })
+
+    $(document).foundation('slider', 'reflow');
+
 }
 
 function prompt_error(MESSAGE, LEVEL) {
