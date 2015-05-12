@@ -11,4 +11,4 @@ METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]
 DEFINITION=[\w]+[\s]+[=][\s]+[\w]+
 
 # A reference to a member of another object
-FOREIGN_REFERENCE=[\w]+[.][\w]+
+FOREIGN_REFERENCE=(^|\s+)(?!(super)|(this))(\w+[.])+[\S]+

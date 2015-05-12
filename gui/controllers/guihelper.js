@@ -111,9 +111,9 @@ function show_settings(orig) {
     $.each(orig, function(metric, rule){
         printdata += "<span class='label radius'>" + metric + "</span>"
         $.each(rule, function(name, value){
-            slider_id = metric + name + "S"
+            slider_id = metric + "::" +  name
             display_selector = metric + name
-            printdata += "<span class='label radius warning'>" + name + "</span>"
+            printdata += "<span class='label radius secondary'>" + name + "</span>"
             printdata += "<div class='row'>"
             printdata += "<div class='small-4 columns'>"
             printdata += "<div id='" + slider_id + "' class='range-slider' data-slider data-options=\"display_selector: #" + display_selector + "; initial: " + value + ";\">"
@@ -126,19 +126,12 @@ function show_settings(orig) {
     })
 
     $("#a_settings").html(printdata)
-
-    /* Set Values for Sliders */
-    $.each(orig, function(metric, rule){
-        $.each(rule, function(name, value){
-            slider_id = metric + name + "S"
-            display_selector = metric + name
-            // $("#" + slider_id).foundation('slider', 'set_value', value);
-        })
-    })
-
     $(document).foundation('slider', 'reflow');
-
+    activate_slider_listener()
 }
+
+
+
 
 function prompt_error(MESSAGE, LEVEL) {
 

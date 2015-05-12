@@ -47,14 +47,14 @@ class FEInspector(InspectionABC):
 
                 # Number of lines in a detected method that are useless in this context
                 # e.g. method declaration and space between end of method and next method
-                OVERHUNG_LINES = 3
-                
-                frefs_percentage = 100 * _num_frefs / (_method_locs[_method_start_line] - OVERHUNG_LINES + 1)
+                OVERHUNG_LINES = 1
+
+                frefs_percentage = 100 * _num_frefs / (abs(_method_locs[_method_start_line] - OVERHUNG_LINES) + 1)
 
                 if frefs_percentage > self.MAX_FOREIGN_REFERENCES_PERCENTAGE:
-                    _note = "{} foreign references within {} lines i.e. {}%".format(_num_frefs, 
-                                                                            _method_locs[_method_start_line], 
-                                                                            frefs_percentage)
+                    _note = "{} foreign references within {} lines i.e. {}%".format(_num_frefs,
+                                                                                    _method_locs[_method_start_line],
+                                                                                    frefs_percentage)
                     _code = AGResultHelper.get_code(_all_methods, _file, _method_start_line)
                     self.note_violation(_file, _method_start_line, _code, _note)
                     self.escalate()

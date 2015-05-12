@@ -49,7 +49,7 @@ function get_all_rulesettings() {
 
 function update_rule(metric, rule, value) {
     console.log("update_rule...")
-    $.getJSON("http://" + HOST + ":" + PORT + "/rule/change/" + metric + "/" + rule + "/" + value, function (data) {
+    $.getJSON("http://" + HOST + ":" + PORT + "/rule/set/" + metric + "/" + rule + "/" + value, function (data) {
     }).done(function(data) {
         hide_error()
     }).fail(function(data) {

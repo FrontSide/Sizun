@@ -25,8 +25,16 @@
       get_all_rulesettings()
   })
 
-  $('[data-slider]').on('change.fndtn.slider', function(){
-      console.log("slider TRIGGERED");
-      prompt_error($(this).attr('data-slider'), "error")
 
-  });
+  function activate_slider_listener() {
+      $('[data-slider]').on('change.fndtn.slider', function(){
+          console.log("slider TRIGGERED");
+
+          metric = $(this).attr('id').split("::")[0]
+          rule = $(this).attr('id').split("::")[1]
+          value = $(this).attr('data-slider')
+
+          update_rule(metric, rule, value)
+
+      });
+  }

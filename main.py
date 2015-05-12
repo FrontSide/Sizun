@@ -65,22 +65,9 @@ r_run_full = routch.get("RUN", "FULL")
 @app.route(r_home)
 def home():
     """
-    Root/Home Page
+    Root/Home Page - Shows the ReST API Paths
     """
-    apidoc = dict()
-    apidoc["set a new sourcepath"] = r_set_srcpath
-    apidoc["receive the currently set sourcepath"] = r_get_srcpath
-    apidoc["manually set the source's language"] = r_set_language
-    apidoc["receive the currently set sourcepath"] = r_get_language
-    apidoc["activate the execution of an inspection"] = r_activate_inspection
-    apidoc["deactivate the execution of an inspection"] = r_deactivate_inspection
-    apidoc["receive the execution status of an inspection"] = r_deactivate_inspection
-    apidoc["change the value for an inspection rule"] = r_change_rule
-    apidoc["reset the value for an inspection rule"] = r_reset_rule
-    apidoc["receive the value currently for an inspection rule"] = r_reset_rule
-    apidoc["run one specific inspections"] = r_run_single
-    apidoc["run all activated inspections"] = r_run_full
-    return jsonify(apidoc)
+    return jsonify(routch.getall())
 
 
 @app.route('/sourcepath/set/<path:sourcepath>')
