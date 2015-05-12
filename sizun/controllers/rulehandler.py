@@ -30,3 +30,6 @@ class RuleHandler:
 
     def get_all_rules(self):
         return self.confighandler.getall()
+
+    def reset(self):
+        return ConfigHandler.setall(old=self.confighandler, new=self.defaults)

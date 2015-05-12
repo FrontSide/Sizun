@@ -37,6 +37,7 @@ rulech = ConfigHandler('config/rules.sizcon')
 inspsettings = InspectionSettings(mainch)
 inspsettings.reset()
 rulehandler = RuleHandler(rulech, inspsettings)
+rulehandler.reset()
 fh = FileHandler(inspsettings)
 
 # Allow Cross Origin Resource Sharing on ALL ROUTES

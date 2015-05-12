@@ -37,22 +37,17 @@ function show_inspection_results(result) {
         printdata += "</div>"
 
         var vio_counter = 0
-        var modulo_result = v["VIOLATIONS"].length % SPLIT_VIOLATIONS_BY
-        var num_violations = modulo_result == 0 ? v["VIOLATIONS"].length : (v["VIOLATIONS"].length + SPLIT_VIOLATIONS_BY - modulo_result)
-
-        printdata += "<div class='large-4 columns'>"
+        var columns = new Array()
 
         $.each(v["VIOLATIONS"], function(k, violation){
 
-            if ((vio_counter++ != 0) && ((vio_counter % ((num_violations / 3) + 1)  == 0))) {
-                printdata += "</div><div class='large-4 columns'>"
-            }
+            var column_content = ""
 
-            printdata += "<div class='panel violation-container-panel'>"
+            column_content += "<div class='panel violation-container-panel'>"
 
             if (violation["CODE"]) {
                 code = String(violation["CODE"]).replace(new RegExp(',', 'g'), "<br />");
-                printdata += "<pre><code class='" + GLOBAL_LANGUAGE + "'>" + code + "</code></pre><br />"
+                column_content += "<pre><code class='" + GLOBAL_LANGUAGE + "'>" + code + "</code></pre><br />"
             }
 
             if (violation["FILE"]) {
@@ -61,33 +56,50 @@ function show_inspection_results(result) {
 
                     console.log("Keys in \"Files\":: " + Object.keys(violation["FILE"]))
 
-                    printdata += "<span class='label radius'>Files: </span><br /><code>"
+                    column_content += "<span class='label radius'>Files: </span><br /><code>"
 
                     $.each(violation["FILE"], function(filename, line){
-                        printdata += filename + " :: " + line + "<br />"
+                        column_content += filename + " :: " + line + "<br />"
                     })
 
-                    printdata += "</code><br />"
+                    column_content += "</code><br />"
                 } else {
-                    printdata += "<span class='label radius'>File: </span>"
-                    printdata += "<code>" + violation["FILE"] + "</code><br />"
+                    column_content += "<span class='label radius'>File: </span>"
+                    column_content += "<code>" + violation["FILE"] + "</code><br />"
                 }
             }
 
             if (violation["LINE"]) {
-                printdata += "<span class='label radius'>Line: </span>"
-                printdata += "<code>" + violation["LINE"] + "</code><br />"
+                column_content += "<span class='label radius'>Line: </span>"
+                column_content += "<code>" + violation["LINE"] + "</code><br />"
             }
 
             if (violation["INFO"]) {
-                printdata += "<span class='label radius'>Info: </span>"
-                printdata += "<code>" + violation["INFO"] + "</code><br />"
+                column_content += "<span class='label radius'>Info: </span>"
+                column_content += "<code>" + violation["INFO"] + "</code><br />"
             }
 
 
-            printdata += "</div>"
+            column_content += "</div>"
+            colum_num = vio_counter++%SPLIT_VIOLATIONS_BY
+
+            if (columns[colum_num] == null) {
+                columns[colum_num] = ""
+            }
+
+            columns[colum_num] += column_content
 
         })
+
+
+
+        //Add the columns to the content
+        $.each(columns, function(key, content){
+            printdata += "<div class='large-4 columns'>"
+            printdata += content
+            printdata += "</div>"
+        })
+
         printdata += "</div>" //Closes the row for this pair of violations
     })
 
@@ -109,17 +121,27 @@ function show_settings(orig) {
     printdata = ""
 
     $.each(orig, function(metric, rule){
-        printdata += "<span class='label radius'>" + metric + "</span>"
+        printdata += "<span class='label radius'>" + inspection_names[metric] + "</span>"
         $.each(rule, function(name, value){
             slider_id = metric + "::" +  name
             display_selector = metric + name
+
+            start_value = Math.floor(value*0.5)
+            end_value = Math.ceil(value*1.5)
+
+            printdata += "<div class='row vertical-center-container'>"
+            printdata += "<div class='small-4 columns vertical-center-box'>"
             printdata += "<span class='label radius secondary'>" + name + "</span>"
-            printdata += "<div class='row'>"
-            printdata += "<div class='small-4 columns'>"
-            printdata += "<div id='" + slider_id + "' class='range-slider' data-slider data-options=\"display_selector: #" + display_selector + "; initial: " + value + ";\">"
+            printdata += "</div>"
+            printdata += "<div class='small-4 columns vertical-center-box'>"
+            printdata += "<div id='" + slider_id + "' class='range-slider' data-slider "
+                            + "data-options=\"display_selector: #" + display_selector
+                            + "; start: " + start_value
+                            + "; end: " + end_value
+                            + "; initial: " + value + "\">"
             printdata += "<span class='range-slider-handle' role='slider' tabindex='0'></span>"
             printdata += "<span class='range-slider-active-segment'></span></div></div>"
-            printdata += "<div class='small-2 columns'>"
+            printdata += "<div class='small-2 columns vertical-center-box'>"
             printdata += "<input type='number' id='" + display_selector + "' value=" + value + " />"
             printdata += "</div></div>"
         })

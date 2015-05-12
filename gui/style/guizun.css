@@ -85,6 +85,12 @@ label {
     font-size: 15px;
 }
 
+
+.vertical-center-box {
+  display: table;
+  vertical-align: middle;
+}
+
 .monospace-panel {
     font-family: "Courier New", Courier, monospace;
     word-wrap: break-word;
