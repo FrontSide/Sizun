@@ -1,8 +1,8 @@
 [CC]
-max_complexity = 9
+max_complexity = 7
 
 [CD]
-min_tokens = 27
+min_tokens = 30
 
 [FE]
 max_foreign_references_percentage = 50

@@ -179,3 +179,6 @@ if [ "$OPENGUI" = true ]; then
     echo "open gui in default browser..."
     x-www-browser gui/index.html
 fi
+
+# Once user quits. Stop gunicorn
+./stop
