@@ -38,12 +38,10 @@ The language parameter **-l** should only be used if the automatic detection fai
 ## Support
 ### OS
 Sizun is developed and tested under **Linux**. It is also meant to be working under Windows in the near future.
-Support for Mac is right now not planned, should, however, not be such a problem to realise.
+Support for Mac is currently not planned, should, however, not be such a problem to realise.
 
 ### Programming Languages
-Currently Sizun focuses on the inspection of **Java** source code.
-
-Also in development is **Python** support.
+Currently Sizun focuses on the inspection of **Java** and **Python** source code.
 
 Intended is support for: **C**, **C++**, **C#**, **Scala**, **Ruby**, **Javascript** and **PHP** and whatever there is.
 
@@ -54,6 +52,7 @@ Not intended is support for: **Whitespace**
 
 Request | Description
 ------- | -----------
+`/`  | Get all ReST API Mappings
 `/run`  | Run full code inspection
 `/run/[metricname]`  | Execute inspection for one spectific metric
 `/sourcepath/set/[sourcepath]`  | Set path to application to inspect*
@@ -66,6 +65,7 @@ Request | Description
 `/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
 `/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
 `/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
+`/rule/all`  | Get all rules for all metrics with all values
 
 ####*Omit the leading '/' when setting the sourcepath
 **The sourcecode's language is by default automatically detected.
@@ -84,21 +84,22 @@ Request | Description
 ### Core Application
 
 **Working so far:**
-- Complexity Measurement for JAVA and PYTHON
-- Code Duplication Measurement for JAVA
+- Complexity Measurement
+- Code Duplication Measurement
 - ReST API as listed in doc (above)
+- All necessary configuration can be done via API calls
 
 **In effective development (Planned for v0.1.0-alpha):**
-- Lazy Class Detection for JAVA
-- Large/God Class Detection for JAVA
-- Long Parameter List Detection for JAVA
-- CLI for running inspections and simple configurations (so that nobody needs to tinker about in the config file)
-
+- Lazy Class Detection
+- Large/God Class Detection
+- Long Parameter List Detection 
 The development of Sizun has only started in mid-march 2015.
 A first useable prototype should be available by mid-may!
 
 Planned release date vor **v0.1.0-alpha** is the **28. May 2015**<br />
 Current: **v0.1-dev** (initial rapid development)
+
+Release branch: [0.x](https://github.com/FrontSide/Sizun/tree/0.x)
 
 ### In-Browser GUI
 Development in branch: [gui-1](https://github.com/FrontSide/Sizun/tree/gui-1)
