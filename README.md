@@ -4,6 +4,19 @@
 
 This software implements standards and conventions from a new Software Quality Framework presented in my Bachelor Thesis.
 
+---
+![Home Screen](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_homescreen.png)
+
+---
+
+![Settings](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_settings.png)
+
+---
+
+![Results](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_results1.png)
+
+---
+
 ## Setup
 
 At the moment, Sizun can only be built from source.
@@ -92,7 +105,7 @@ Request | Description
 **In effective development (Planned for v0.1.0-alpha):**
 - Lazy Class Detection
 - Large/God Class Detection
-- Long Parameter List Detection 
+- Long Parameter List Detection
 The development of Sizun has only started in mid-march 2015.
 A first useable prototype should be available by mid-may!
 
