@@ -5,15 +5,15 @@
 This software implements standards and conventions from a new Software Quality Framework presented in my Bachelor Thesis.
 
 ---
-![Home Screen](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_homescreen.png)
+![Home Screen](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_homescreen.png)
 
 ---
 
-![Settings](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_settings.png)
+![Settings](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_settings.png)
 
 ---
 
-![Results](https://raw.githubusercontent.com/FrontSide/Sizun/0.x/showcase/gui_results1.png)
+![Results](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_results1.png)
 
 ---
 
