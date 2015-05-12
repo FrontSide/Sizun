@@ -24,6 +24,12 @@ body {
     margin-right: auto
 }
 
+.topbox > h6 {
+    color: #555;
+    font-size: 10px;
+    float:right;
+}
+
 .settings-accordion {
     font-size: 5px;
     text-align: left;
