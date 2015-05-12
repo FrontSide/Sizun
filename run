@@ -115,6 +115,14 @@ function install_pmd() {
 
 }
 
+echo "create main logfile..."
+touch main.log
+
+echo "create virtual environment..."
+PRO="virtualenv"
+($PRO -p python3 .)
+chk
+
 echo "activate python virtual environment..."
 source ./bin/activate
 
@@ -124,6 +132,7 @@ PYTHON_PATH="./bin/python3"
 echo "install python tools..."
 PRO=$PIP_PATH
 ($PRO install -r ./requirements.txt)
+($PRO install gunicorn)
 chk
 
 echo "check pmd installation ($PATH_TO_PMD_SCRIPT)..."
