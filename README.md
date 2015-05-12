@@ -19,20 +19,15 @@ This software implements standards and conventions from a new Software Quality F
 
 ## Setup
 
-At the moment, Sizun can only be built from source.
-Download the latest working release (atm. there's just the master branch, though), make sure all **Requirements** are installed and continue with **Usage**.
+**Download the latest [Release](https://github.com/FrontSide/Sizun/releases) (or the current master if you are feeling lucky) and unzip it.**<br />
+
+Make sure you have all the necessary requirements - as listed below - installed.
+All other dependencies are installed during the first run.
 
 ## Requirements
 
 - python3.4+ with pip
 - [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
-- [Gunicorn](http://gunicorn.org/)
-
-Sizun is also using [PMD](http://pmd.sourceforge.net/pmd-5.2.3/) with CPD in version **5.2.3**.
-This is, however, downloaded automatically during the first run.<br />
-<sub>(Version 5.3.x of PMD would be available but CPD fails in creating a CSV output which makes the software a little useless for Sizun)</sub>
-
-Right now you also might have to install some python modules manually with pip since this might request root permission. **Alternatively** you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
 
 ## Usage
 ### Run with:
@@ -90,29 +85,3 @@ Request | Description
 #### Example:
 
     curl localhost:8373/run
-
-
-## Development
-
-### Core Application
-
-**Working so far:**
-- Complexity Measurement
-- Code Duplication Measurement
-- ReST API as listed in doc (above)
-- All necessary configuration can be done via API calls
-
-**In effective development (Planned for v0.1.0-alpha):**
-- Lazy Class Detection
-- Large/God Class Detection
-- Long Parameter List Detection
-The development of Sizun has only started in mid-march 2015.
-A first useable prototype should be available by mid-may!
-
-Planned release date vor **v0.1.0-alpha** is the **28. May 2015**<br />
-Current: **v0.1-dev** (initial rapid development)
-
-Release branch: [0.x](https://github.com/FrontSide/Sizun/tree/0.x)
-
-### In-Browser GUI
-Development in branch: [gui-1](https://github.com/FrontSide/Sizun/tree/gui-1)
