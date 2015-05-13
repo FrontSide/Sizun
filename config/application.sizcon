@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = /home/dave/dev/android/Cineview/app/src/main/java/com/example/rhys/cineview/
+sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
 language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh

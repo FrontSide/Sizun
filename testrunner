@@ -1,2 +1,3 @@
 #!/bin/bash
+source ./bin/activate
 python3 -m unittest discover -s test/controllers -p='test_*.py' -v
