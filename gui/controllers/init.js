@@ -12,6 +12,7 @@ var inspection_names = new Array();
 inspection_names["CC"] = "Cyclomatic complexity"
 inspection_names["CD"] = "Code Duplications"
 inspection_names["FE"] = "Feature Envy"
+inspection_names["LPL"] = "Long Parameter List"
 
 //Number of violation boxes in one row (for full display size)
 var SPLIT_VIOLATIONS_BY = 3

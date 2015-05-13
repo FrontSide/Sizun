@@ -180,5 +180,8 @@ if [ "$OPENGUI" = true ]; then
     x-www-browser gui/index.html
 fi
 
+echo "Sizun is ready!"
+read -p "Hit [Enter] to stop sizun."
+
 # Once user quits. Stop gunicorn
 ./stop

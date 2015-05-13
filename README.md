@@ -55,6 +55,13 @@ Intended is support for: **C**, **C++**, **C#**, **Scala**, **Ruby**, **Javascri
 
 Not intended is support for: **Whitespace**
 
+## Features
+Currently the following code smells are detected:
+- Complex Methods (i.e. Long Method)
+- Long Parameter Lists
+- Feature Envy
+- Duplicated Code
+
 ## API
 #### Sizun is developed with a web-framework and thus offers a ReST-API
 
