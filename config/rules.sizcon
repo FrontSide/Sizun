@@ -8,5 +8,5 @@ min_tokens = 30
 max_foreign_references_percentage = 50
 
 [LPL]
-max_parameters = 7
+max_parameters = 6
 

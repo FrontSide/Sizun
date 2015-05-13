@@ -11,7 +11,8 @@ from sizun.controllers.filehandler import FileHandler
 from sizun.controllers.rulehandler import RuleHandler
 from sizun.errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
-                                         ExternalDependencyError
+                                         ExternalDependencyError, \
+                                         NotFoundInConfigError
 from sizun.controllers.confighandler import ConfigHandler
 from sizun.controllers.settings import InspectionSettings
 from sizun.controllers.inspectors.inspection import InspectionRunner
@@ -188,7 +189,7 @@ def run_full_inspection():
     """
     try:
         return jsonify(InspectionRunner(inspsettings, rulehandler).run())
-    except (ExternalDependencyError, InvalidRequestError) as error:
+    except (ExternalDependencyError, InvalidRequestError, NotFoundInConfigError) as error:
         return jsonify(error.to_dict()), error.status_code
 
 

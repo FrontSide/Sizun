@@ -1,6 +1,6 @@
 [BASIC]
-sourcepath = /home/drieger/Documents/github/sizun/sizun/controllers
-language = py
+sourcepath = /home/drieger/Documents/github/evince/shell
+language = c
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 

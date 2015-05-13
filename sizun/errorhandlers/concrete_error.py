@@ -21,7 +21,7 @@ class NotFoundInConfigError(ErrorABC):
     status_code = 500
 
     def __init__(self, message, status_code=None, payload=None):
-        super().throw(NotFoundInConfigError, message)
+        super().throw(NotFoundInConfigError, "There is something missing in a config file :: {}".format(message))
 
 
 class LineNotFoundError(ErrorABC):
