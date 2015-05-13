@@ -74,3 +74,6 @@ target/
 
 # Target Folder for Sizun result files
 results/
+
+# Installed File
+.INSTALLED

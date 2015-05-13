@@ -4,8 +4,8 @@ python:
 
 # command to install dependencies
 install:
-    - "pip install -r requirements.txt"
+    - "./install"
 
 # command to run tests
-script: 
+script:
     - "./testrunner"
