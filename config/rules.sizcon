@@ -3,6 +3,7 @@ max_complexity = 7
 
 [CD]
 min_tokens = 30
+min_duplications = 3
 
 [FE]
 max_foreign_references_percentage = 50

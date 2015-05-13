@@ -19,6 +19,7 @@ class CDInspector(InspectionABC):
         self.INSPECTION = "CD"
         self.rule = rulehandler
         self.MINIMUM_TOKENS = self.rule.get_value("CD", "MIN_TOKENS")
+        self.MIN_DUPLICATIONS = int(self.rule.get_value("CD", "MIN_DUPLICATIONS"))
         self.linegrabber = linegrabber
 
     def inspect(self):
@@ -26,8 +27,10 @@ class CDInspector(InspectionABC):
         _duplications = self._find_all_duplications()
 
         for _dup in _duplications:
-            self.escalate()
             _files = list(_dup["files"].keys())
+            if len(_files) <= self.MIN_DUPLICATIONS:
+                continue  # Skip if minimum of duplications not reached
+            self.escalate()
             _start_line = _dup["files"][_files[0]]
             _end_line = _start_line + _dup["lines"] - 1
             _duplicated_code = self.linegrabber.get_lines(_files[0], start_line=_start_line, end_line=_end_line)
