@@ -131,7 +131,7 @@ fi
 
 if [ "$OPENGUI" = true ]; then
     echo "open gui in default browser..."
-    x-www-browser gui/index.html
+    xdg-open gui/index.html
 fi
 
 echo "Sizun is ready!"
