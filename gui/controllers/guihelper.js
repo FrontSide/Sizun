@@ -173,7 +173,11 @@ function prompt_error(MESSAGE, LEVEL) {
 
 }
 
-function open_progress_modal() {
+function open_progress_modal(message) {
+    if (message == null) {
+        message = "Inspection In Progress..."
+    }
+    $('#t_insp_prog').html(message)
     $('#m_insp_prog').foundation('reveal', 'open');
 }
 

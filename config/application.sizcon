@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = /home/drieger/Documents/github/sizun/gittmp/arignee
+sourcepath = /home/drieger/Documents/github/sizun/gittmp/Cineview
 language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh

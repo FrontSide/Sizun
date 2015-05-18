@@ -69,6 +69,18 @@ function update_sourcepath(SOURCEPATH) {
         })
 }
 
+function update_git(GITURL) {
+    console.log("clone git repo...")
+
+    $.getJSON("http://" + HOST + ":" + PORT + "/git/set/'" + GITURL + "'", function (data) {
+        }).done(function() {
+            hide_error()
+            get_language()
+        }).fail(function() {
+            check_for_error(data)
+        })
+}
+
 function run_inspection() {
     console.log("run inspection...")
     open_progress_modal()

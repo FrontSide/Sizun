@@ -32,8 +32,11 @@ MIT License
 
             <div class="large-12 columns">
                 <div class="row collapse">
-                    <div class="small-10 columns">
-                        <input type="text" id="i_sourcepath" placeholder="/home/mrman/path/to/app/source" />
+                    <div class="small-3 columns">
+                        <span class="prefix">GIT Repository or Sourcepath</span>
+                    </div>
+                    <div class="small-7 columns">
+                        <input type="text" id="i_sourcepath" placeholder="/home/mrman/path/to/app/source or https://github.com/FrontSide/Dary-The-Blog.git" />
                     </div>
                     <div class="small-2 columns">
                         <button id="b_run" type="button" class="medium success button postfix">
@@ -78,7 +81,7 @@ MIT License
     <!-- Reveal Modals begin -->
     <div id="m_insp_prog" class="reveal-modal" data-reveal aria-labelledby="m_insp_prog" aria-hidden="true" role="dialog">
         <center>
-            <h3 id="t_insp_prog">Inspection In Progress...</h3>
+            <h3 id="t_insp_prog"></h3>
             <span class="spinner-loader"><span class="spinner-loader-inner"></span></span>
         </center>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>

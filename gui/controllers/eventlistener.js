@@ -8,15 +8,35 @@
   $("#i_sourcepath").keyup(function(e){
       console.log("i_sourcepath TRIGGERED");
       /* from http_req.js */
-      update_sourcepath($("#i_sourcepath").val());
+      srcpath = $("#i_sourcepath").val()
+
+      if (srcpath.indexOf("/") === 0) {
+          update_sourcepath(srcpath);
+      }
+
       if (e.which == 13) {
+
+          //Clone git repo first if applicable
+          if (srcpath.indexOf("http") === 0) {
+              open_progress_modal("Clone GIT Repository...")
+              update_git(srcpath)
+              close_progress_modal()
+          }
+
           run_inspection();
       }
   });
 
   $("#b_run").click(function(){
       console.log("b_run TRIGGERED");
-      /* from http_req.js */
+
+      //Clone git repo first if applicable
+      if ($("#i_sourcepath").val().indexOf("http") === 0) {
+          open_progress_modal("Clone GIT Repository...")
+          update_git(srcpath)
+          close_progress_modal()
+      }
+
       run_inspection();
   });
 
