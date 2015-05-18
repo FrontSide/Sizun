@@ -14,7 +14,7 @@ Waiting for release...
 
 ## Requirements
 
-- python3.4+ with pip
+- **python3.4+** with **pip** and **virtualenv**
 - [Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 
 Right now you also might have to install some python modules manually with pip since this might request root permission. **Alternatively** you can create a python virtual environment in the application folder and install the modules there. This is, however, just a temporary problem that will be gone once a first release is here.
