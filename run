@@ -2,7 +2,8 @@
 
 
 usage() {
-    echo "Usage: $0 [-s <sourcepath>] [-l <language>] [-r] [-G]"; exit 1;
+    echo "Usage: $0 ([-s <sourcepath>]|[-g <public git repo URL>]) [-l <language>] [-r] [-G]";
+    exit 1;
 }
 
 function chk_optarg_empty() {
@@ -15,7 +16,7 @@ function chk_optarg_empty() {
 # s -> set sourcepath -> requires argument
 # l -> set language -> requires argument
 # G -> open web-gui
-while getopts ":s:l:rG" opt; do
+while getopts ":s:g:l:rG" opt; do
     case $opt in
         s)
             chk_optarg_empty
@@ -27,6 +28,15 @@ while getopts ":s:l:rG" opt; do
                 echo "\"$sourcepath\" does not seem to be a directory!"
                 usage
             fi
+            ;;
+        g)
+            chk_optarg_empty
+            if [ "$VALIDSOURCEPATH" = true ]; then
+                echo "You may not set a sourcepath and a git repo!"
+                usage
+            fi
+            GITURL=true
+            gitrepo=${OPTARG}
             ;;
         l)
             chk_optarg_empty
@@ -121,6 +131,12 @@ if [ "$VALIDSOURCEPATH" = true ]; then
     echo "set sourcepath..."
     sourcepath=$(echo $sourcepath | sed 's/[/]*//') # Remove leading '/'
     curl "http://$HOST:$PORT/sourcepath/set/$sourcepath"
+fi
+
+if [ "$GITURL" = true ]; then
+    sleep 2
+    echo "clone git repository..."
+    curl "http://$HOST:$PORT/git/set/$gitrepo"
 fi
 
 if [ "$RUNNOW" = true ]; then
