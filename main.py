@@ -16,6 +16,7 @@ from sizun.errorhandlers.concrete_error import InvalidRequestError,\
 from sizun.controllers.confighandler import ConfigHandler
 from sizun.controllers.settings import InspectionSettings
 from sizun.controllers.inspectors.inspection import InspectionRunner
+from sizun.controllers.githandler import GitHandler
 import logging
 
 # Main Application
@@ -39,6 +40,7 @@ inspsettings = InspectionSettings(mainch)
 inspsettings.reset()
 rulehandler = RuleHandler(rulech, inspsettings)
 rulehandler.reset()
+githandler = GitHandler(inspsettings)
 fh = FileHandler(inspsettings)
 
 # Allow Cross Origin Resource Sharing on ALL ROUTES
@@ -49,6 +51,8 @@ r_home = routch.get("VIEW", "HOME")
 r_set_srcpath = routch.get("SOURCEPATH", "SET")
 r_get_srcpath = routch.get("SOURCEPATH", "GET")
 r_get_srcpath_tree = routch.get("SOURCEPATH", "TREE")
+r_get_git = routch.get("GIT", "GET")
+r_set_git = routch.get("GIT", "SET")
 r_activate_inspection = routch.get("INSPECTION", "ACTIVATE")
 r_deactivate_inspection = routch.get("INSPECTION", "DEACTIVATE")
 r_isset_inspection = routch.get("INSPECTION", "ISSET")
@@ -90,6 +94,16 @@ def get_srcpath():
         return jsonify({"SOURCEPATH": inspsettings.get_sourcepath()})
     except (ComprehensionError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
+
+
+@app.route(r_set_git)
+def set_git(url_to_repo):
+    """
+    Invokes the clone of the given public git repository and
+    changes the sourcepath accordingly
+    """
+    githandler.clone_repo(url_to_repo.strip("'"))
+    return set_srcpath(githandler.get_path_to_repo())
 
 
 @app.route(r_set_language)

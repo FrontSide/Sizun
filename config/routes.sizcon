@@ -12,6 +12,10 @@ get=/sourcepath/get
 set=/sourcepath/set/<path:sourcepath>
 tree=/sourcepath/tree/get
 
+[GIT]
+get=/git/get
+set=/git/set/<path:url_to_repo>
+
 [RUN]
 full=/run
 single=/run/<inspection_key>

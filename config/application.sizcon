@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+sourcepath = /home/drieger/Documents/github/sizun/gittmp/arignee
 language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
