@@ -12,7 +12,21 @@ Master | 0.x Branch
 
 ## Setup
 
-Waiting for release...
+**Download the latest [Release](https://github.com/FrontSide/Sizun/releases) (or the current master if you are feeling lucky) and unzip it.**<br />
+
+Make sure you have all the necessary requirements - as listed below - installed.
+
+---
+
+![Home Screen](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_homescreen.png)
+
+---
+
+![Settings](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_settings.png)
+
+---
+
+![Results](https://raw.githubusercontent.com/FrontSide/Sizun/107c8bffccf012bf65e26890c79de07310acf878/showcase/gui_results1.png)
 
 ## Requirements
 
@@ -48,11 +62,20 @@ Intended is support for: **C**, **C++**, **C#**, **Scala**, **Ruby**, **Javascri
 
 Not intended is support for: **Whitespace**
 
+## Features
+
+- Currently the following code smells are detected:
+- Complex Methods (i.e. Long Method)
+- Long Parameter Lists
+- Feature Envy
+- Duplicated Code
+
 ## API
 #### Sizun is developed with a web-framework and thus offers a ReST-API
 
 Request | Description
 ------- | -----------
+`/`  | Get all ReST API Mappings
 `/run`  | Run full code inspection
 `/run/[metricname]`  | Execute inspection for one spectific metric
 `/sourcepath/set/[sourcepath]`  | Set path to application to inspect*
@@ -66,6 +89,7 @@ Request | Description
 `/rule/change/[metricname]/[rulename]/[value]`  | Change rule for Inspection Metric
 `/rule/reset/[metricname]/[rulename]`  | Reset rule for Inspection Metric
 `/rule/get/[metricname]/[rulename]`  | Get rule for Inspection Metric
+`/rule/all`  | Get all rules for all metrics with all values
 
 ####*Omit the leading '/' when setting the sourcepath
 **The sourcecode's language is by default automatically detected.
