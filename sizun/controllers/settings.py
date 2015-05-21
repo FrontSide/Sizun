@@ -56,25 +56,30 @@ class InspectionSettings:
             _language = None
 
         if enforce_detection or _language is None:
-            _language = self._detect_language()
+            _language = self._detect_language(self.fh.get_tree())
             self.set_language(_language)
 
         return _language
 
-    def _detect_language(self):
+    def _detect_language(self, dir_tree):
         """
         Detects the used language
-        by looking for the most common file ending in the root folder of the srcpath tree
+        by recursively looking for the most common file ending in the srcpath tree
         """
 
         _file_endings = list()
-        _tree = self.fh.get_tree()
 
-        for k in _tree:
+        for k, v in dir_tree.items():
 
             # Files have None as value, skip directories
-            if _tree[k] is None:
+            if v is None:
                 _file_endings.append(k.split('.')[-1])
+            # Recursively detect language in subdirectory tree
+            else:
+                _file_endings.append(self._detect_language(v))
+
+        if len(_file_endings) is 0:
+            return None
 
         return max(set(_file_endings), key=_file_endings.count)
 

@@ -1,12 +1,13 @@
 [CC]
-max_complexity = 1
+max_complexity = 5
 
 [CD]
-min_tokens = 10
+min_tokens = 30
+min_duplications = 3
 
 [FE]
-max_foreign_references = 1
+max_foreign_references_percentage = 50
 
-[cc]
-max_complexity = 1
+[LPL]
+max_parameters = 6
 

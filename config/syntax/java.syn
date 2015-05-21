@@ -8,6 +8,7 @@ FLOWPATH=((else[\s])?if[\s]*[\(])|(try[\s]+[{])|(case[\s]*.*[:])
 METHOD=(public|private|package|protected)[\s]+([\w]|[\s])+[\w]+[\s]*[\(]
 
 # Lines that assign a value to another one
-DECLATATION=[\w]+[\s]+[\w]+[\s]+[=][\s]+[\w]+
-REFERENCE=[\w]+[\s]+[=][\s]+[\w]+
-FOREIGN_REFERENCE=[\w]+[.][\w]+
+DEFINITION=[\w]+[\s]+[=][\s]+[\w]+
+
+# A reference to a member of another object
+FOREIGN_REFERENCE=(^|\s+)(?!(super)|(this))(\w+[.])+[\S]+

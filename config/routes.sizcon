@@ -12,6 +12,10 @@ get=/sourcepath/get
 set=/sourcepath/set/<path:sourcepath>
 tree=/sourcepath/tree/get
 
+[GIT]
+get=/git/get
+set=/git/set/<path:url_to_repo>
+
 [RUN]
 full=/run
 single=/run/<inspection_key>
@@ -25,3 +29,4 @@ isset=/inspection/isset/<inspection_key>
 change=/rule/set/<inspection_key>/<rule_key>/<value>
 get=/rule/get/<inspection_key>/<rule_key>
 reset=/rule/reset/<inspection_key>/<rule_key>
+all=/rule/all

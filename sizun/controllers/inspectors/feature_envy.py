@@ -18,7 +18,7 @@ class FEInspector(InspectionABC):
         self.INSPECTION = "FE"
         self.syntax = syntaxhandler
         self.rule = rulehandler
-        self.MAX_FOREIGN_REFERENCES = int(self.rule.get_value(self.INSPECTION, "MAX_FOREIGN_REFERENCES"))
+        self.MAX_FOREIGN_REFERENCES_PERCENTAGE = int(self.rule.get_value(self.INSPECTION, "MAX_FOREIGN_REFERENCES_PERCENTAGE"))
 
     def inspect(self):
         super().inspect()
@@ -38,14 +38,23 @@ class FEInspector(InspectionABC):
             _l_frefs = _all_frefs[_file]
             _l_meths = AGResultHelper.get_line_numbers(_all_methods, _file)
 
-            app.logger.debug("file:: {} hat paths starting in:: {}".format(_file, _l_frefs))
+            _method_locs = AGResultHelper.get_length_of_sections(_l_meths)
 
             _frefs_in_methods = AGResultHelper.get_lines_witin_sections(_l_frefs, _l_meths)
             _fref_counter[_file] = {k: len(v) for (k, v) in _frefs_in_methods.items()}
 
             for _method_start_line, _num_frefs in _fref_counter[_file].items():
-                if _num_frefs > self.MAX_FOREIGN_REFERENCES:
-                    _note = "{} foreign references".format(_num_frefs)
+
+                # Number of lines in a detected method that are useless in this context
+                # e.g. method declaration and space between end of method and next method
+                OVERHUNG_LINES = 1
+
+                frefs_percentage = 100 * _num_frefs / (abs(_method_locs[_method_start_line] - OVERHUNG_LINES) + 1)
+
+                if frefs_percentage > self.MAX_FOREIGN_REFERENCES_PERCENTAGE:
+                    _note = "{} foreign references within {} lines i.e. {}%".format(_num_frefs,
+                                                                                    _method_locs[_method_start_line],
+                                                                                    frefs_percentage)
                     _code = AGResultHelper.get_code(_all_methods, _file, _method_start_line)
                     self.note_violation(_file, _method_start_line, _code, _note)
                     self.escalate()

@@ -11,10 +11,12 @@ from sizun.controllers.filehandler import FileHandler
 from sizun.controllers.rulehandler import RuleHandler
 from sizun.errorhandlers.concrete_error import InvalidRequestError,\
                                          ComprehensionError, \
-                                         ExternalDependencyError
+                                         ExternalDependencyError, \
+                                         NotFoundInConfigError
 from sizun.controllers.confighandler import ConfigHandler
 from sizun.controllers.settings import InspectionSettings
 from sizun.controllers.inspectors.inspection import InspectionRunner
+from sizun.controllers.githandler import GitHandler
 import logging
 
 # Main Application
@@ -37,6 +39,8 @@ rulech = ConfigHandler('config/rules.sizcon')
 inspsettings = InspectionSettings(mainch)
 inspsettings.reset()
 rulehandler = RuleHandler(rulech, inspsettings)
+rulehandler.reset()
+githandler = GitHandler(inspsettings)
 fh = FileHandler(inspsettings)
 
 # Allow Cross Origin Resource Sharing on ALL ROUTES
@@ -47,12 +51,15 @@ r_home = routch.get("VIEW", "HOME")
 r_set_srcpath = routch.get("SOURCEPATH", "SET")
 r_get_srcpath = routch.get("SOURCEPATH", "GET")
 r_get_srcpath_tree = routch.get("SOURCEPATH", "TREE")
+r_get_git = routch.get("GIT", "GET")
+r_set_git = routch.get("GIT", "SET")
 r_activate_inspection = routch.get("INSPECTION", "ACTIVATE")
 r_deactivate_inspection = routch.get("INSPECTION", "DEACTIVATE")
 r_isset_inspection = routch.get("INSPECTION", "ISSET")
 r_reset_rule = routch.get("RULE", "RESET")
 r_change_rule = routch.get("RULE", "CHANGE")
 r_get_rule = routch.get("RULE", "GET")
+r_get_all_rules = routch.get("RULE", "ALL")
 r_set_language = routch.get("LANGUAGE", "SET")
 r_get_language = routch.get("LANGUAGE", "GET")
 r_run_single = routch.get("RUN", "SINGLE")
@@ -64,22 +71,9 @@ r_run_full = routch.get("RUN", "FULL")
 @app.route(r_home)
 def home():
     """
-    Root/Home Page
+    Root/Home Page - Shows the ReST API Paths
     """
-    apidoc = dict()
-    apidoc["set a new sourcepath"] = r_set_srcpath
-    apidoc["receive the currently set sourcepath"] = r_get_srcpath
-    apidoc["manually set the source's language"] = r_set_language
-    apidoc["receive the currently set sourcepath"] = r_get_language
-    apidoc["activate the execution of an inspection"] = r_activate_inspection
-    apidoc["deactivate the execution of an inspection"] = r_deactivate_inspection
-    apidoc["receive the execution status of an inspection"] = r_deactivate_inspection
-    apidoc["change the value for an inspection rule"] = r_change_rule
-    apidoc["reset the value for an inspection rule"] = r_reset_rule
-    apidoc["receive the value currently for an inspection rule"] = r_reset_rule
-    apidoc["run one specific inspections"] = r_run_single
-    apidoc["run all activated inspections"] = r_run_full
-    return jsonify(apidoc)
+    return jsonify(routch.getall())
 
 
 @app.route('/sourcepath/set/<path:sourcepath>')
@@ -100,6 +94,16 @@ def get_srcpath():
         return jsonify({"SOURCEPATH": inspsettings.get_sourcepath()})
     except (ComprehensionError, InvalidRequestError) as error:
         return jsonify(error.to_dict()), error.status_code
+
+
+@app.route(r_set_git)
+def set_git(url_to_repo):
+    """
+    Invokes the clone of the given public git repository and
+    changes the sourcepath accordingly
+    """
+    githandler.clone_repo(url_to_repo.strip("'"))
+    return set_srcpath(githandler.get_path_to_repo())
 
 
 @app.route(r_set_language)
@@ -171,6 +175,14 @@ def get_rule(inspection_key, rule_key):
         return jsonify(error.to_dict()), error.status_code
 
 
+@app.route(r_get_all_rules)
+def get_all_rules():
+    try:
+        return jsonify(rulehandler.get_all_rules())
+    except (InvalidRequestError) as error:
+        return jsonify(error.to_dict()), error.status_code
+
+
 @app.route(r_run_single)
 def run_single_inspection(inspection_key):
     """
@@ -191,7 +203,7 @@ def run_full_inspection():
     """
     try:
         return jsonify(InspectionRunner(inspsettings, rulehandler).run())
-    except (ExternalDependencyError, InvalidRequestError) as error:
+    except (ExternalDependencyError, InvalidRequestError, NotFoundInConfigError) as error:
         return jsonify(error.to_dict()), error.status_code
 
 

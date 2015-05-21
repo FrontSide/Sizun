@@ -8,4 +8,4 @@ pmdexe = vendors/pmd/bin/run.sh
 cc = true
 cd = true
 fe = true
-
+lpl = true
