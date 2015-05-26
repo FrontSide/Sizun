@@ -46,3 +46,10 @@ class SyntaxHandler:
         in the specified language's sourcecode
         """
         return self.confighandler.get(self.ELEMENTS_SECTION, "FOREIGN_REFERENCE")
+
+    def get_message_chain_regex(self):
+        """
+        Returns the regex by which message chains can be dedected
+        in the specified language's sourcecode
+        """
+        return self.confighandler.get(self.ELEMENTS_SECTION, "MESSAGE_CHAIN")

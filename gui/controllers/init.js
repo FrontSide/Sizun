@@ -13,6 +13,7 @@ inspection_names["CC"] = "Cyclomatic complexity"
 inspection_names["CD"] = "Code Duplications"
 inspection_names["FE"] = "Feature Envy"
 inspection_names["LPL"] = "Long Parameter List"
+inspection_names["MC"] = "Message Chain"
 
 //Number of violation boxes in one row (for full display size)
 var SPLIT_VIOLATIONS_BY = 3

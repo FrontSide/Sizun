@@ -12,3 +12,6 @@ DEFINITION=[\w]+[\s]+[=][\s]+[\w]+
 
 # A reference to a member of another object
 FOREIGN_REFERENCE=(^|\s+)(?!(self)|(super))(\w+[.])+[\S]+
+
+# Message chain
+MESSAGE_CHAIN=(.*[.].*)

@@ -1,5 +1,5 @@
 [CC]
-max_complexity = 5
+max_complexity = 7
 
 [CD]
 min_tokens = 30
@@ -10,4 +10,7 @@ max_foreign_references_percentage = 50
 
 [LPL]
 max_parameters = 6
+
+[MC]
+max_objects_in_message_chain = 4
 

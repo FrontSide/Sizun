@@ -133,15 +133,12 @@ if [ "$VALIDSOURCEPATH" = true ]; then
     curl "http://$HOST:$PORT/sourcepath/set/$sourcepath"
 fi
 
-<<<<<<< HEAD
-=======
 if [ "$GITURL" = true ]; then
     sleep 2
     echo "clone git repository..."
     curl "http://$HOST:$PORT/git/set/$gitrepo"
 fi
 
->>>>>>> 0.x
 if [ "$RUNNOW" = true ]; then
     sleep 2
     echo "run inspection now..."

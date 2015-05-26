@@ -1,5 +1,5 @@
 [BASIC]
-sourcepath = C:\Users\drieger\Documents\GitHub\Arignee\app\controllers
+sourcepath = /home/drieger/Documents/github/sizun/gittmp/Dary-The-Blog
 language = java
 target = result
 pmdexe = vendors/pmd/bin/run.sh
@@ -9,3 +9,5 @@ cc = true
 cd = true
 fe = true
 lpl = true
+mc = true
+
