@@ -6,7 +6,6 @@ MIT License
 """
 
 from flask import current_app as app
-from sizun.errorhandlers.concrete_error import ExternalDependencyError
 from .inspection import InspectionABC
 from sizun.controllers.aghandler import AGResultHelper
 

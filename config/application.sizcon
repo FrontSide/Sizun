@@ -1,6 +1,6 @@
 [BASIC]
-sourcepath = /home/drieger/Documents/github/sizun/gittmp/Dary-The-Blog
-language = java
+sourcepath = /home/dave/dev/Four
+language = py
 target = result
 pmdexe = vendors/pmd/bin/run.sh
 

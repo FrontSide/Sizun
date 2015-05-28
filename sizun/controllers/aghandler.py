@@ -7,6 +7,7 @@ MIT License
 from .confighandler import ConfigHandler
 from .filehandler import FileHandler
 from .externalexecutor import ExternalExecutor
+from sizun.errorhandlers.concrete_error import WrongParametersError
 from flask import current_app as app
 import os
 

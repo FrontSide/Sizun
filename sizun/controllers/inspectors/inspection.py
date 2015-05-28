@@ -5,14 +5,13 @@ MIT License
 (C) 2015 David Rieger
 """
 
-from abc import ABCMeta, abstractmethod
-from enum import Enum, IntEnum, unique
-from sizun.controllers.filehandler import FileHandler
+from abc import ABCMeta
+from enum import IntEnum, unique
 from sizun.controllers.aghandler import AGHandler
 from sizun.controllers.pmdhandler import PMDHandler
 from sizun.controllers.syntaxhandler import SyntaxHandler
-from sizun.controllers.rulehandler import RuleHandler
 from sizun.controllers.linegrabber import LineGrabber
+from sizun.errorhandlers.concrete_error import UnallowedOperationError
 from flask import current_app as app
 
 
@@ -81,6 +80,8 @@ class InspectionABC(metaclass=ABCMeta):
     Abstract Inspection Super-Class
     """
 
+    _result = dict()
+
     def run(self):
         """
         Triggers the inspection process
@@ -113,7 +114,7 @@ class InspectionABC(metaclass=ABCMeta):
         violation = {"FILE": filename, "LINE": line, "CODE": code, "INFO": info}
         self._result[str(ResultKey.VIOLATIONS)].append(violation)
 
-    def add_info(key, value):
+    def add_info(self, key, value):
         """
         Adds a key value pair to the result dictionary
         Called by the conrete inspector subclass whenever

@@ -5,8 +5,6 @@ MIT License
 (C) 2015 David Rieger
 """
 
-from flask import current_app as app
-from sizun.errorhandlers.concrete_error import ExternalDependencyError
 from .inspection import InspectionABC
 from sizun.controllers.aghandler import AGResultHelper
 

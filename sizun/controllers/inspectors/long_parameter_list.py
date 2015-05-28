@@ -6,9 +6,7 @@ MIT License
 """
 
 from flask import current_app as app
-from sizun.errorhandlers.concrete_error import ExternalDependencyError
 from .inspection import InspectionABC
-from sizun.controllers.aghandler import AGResultHelper
 
 
 class LPLInspector(InspectionABC):
@@ -32,6 +30,7 @@ class LPLInspector(InspectionABC):
                     _parameters = _code[_code.index("("):_code.index(")")].split(",")
                 except ValueError:
                     app.logger.error("Could not find patameters in methodstart :: {}".format(_code))
+                    continue
 
                 if len(_parameters) > self.MAX_PARAMETERS:
                     _note = "{} parameters in method in line {}".format(len(_parameters), _line)
