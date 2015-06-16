@@ -25,7 +25,10 @@ class GitHandler():
         """
         Clones a public git repository to the local git base path
         """
-        shutil.rmtree(self.BASE_PATH)
+        try:
+            shutil.rmtree(self.BASE_PATH)
+        except FileNotFoundError:
+            pass
         os.mkdir(self.BASE_PATH)
         os.chdir(self.BASE_PATH)
         ExternalExecutor.exe([self.C_MAIN, self.C_CLONE, url])
